@@ -5,17 +5,19 @@
 #define HTTPCLIENT_H
 
 #include <boost/asio.hpp>
-#include "baseClient.h"
+
+#include "types.h"
 
 using namespace boost::asio;
 
-class HttpClient : public BaseClient {
+class HttpClient {
 public:
-    HttpClient(ip::address address, unsigned short port) {}
-    void request(std::map<std::string, std::string> data) override{}
+    HttpClient(std::string &address, unsigned short port) {}
+    void request(mapType data) {}
+    Response getResponse() {}
 
 protected:
-    void connect(std::map<std::string, std::string> request) override {}
+    void connect(mapType request) {}
 
     io_context ioContext;
     ip::tcp::endpoint endpoint;

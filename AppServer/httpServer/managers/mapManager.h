@@ -4,7 +4,7 @@
 #ifndef MAPMANAGER_H
 #define MAPMANAGER_H
 
-#include "types.h"
+#include "../../baseClasses/types.h"
 
 class MapManager {
 public:

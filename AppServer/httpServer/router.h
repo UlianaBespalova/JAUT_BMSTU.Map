@@ -12,7 +12,7 @@ class Router {
 public:
     Router (BitopManager *bitopManager, MapManager *mapManager) {}
     Router() = default;
-    responseType execute(requestType request) {}
+    Response execute(Request request) {}
 
 private:
     BitopManager *bitopManager;

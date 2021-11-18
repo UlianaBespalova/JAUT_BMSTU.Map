@@ -5,10 +5,11 @@
 #define HTTPCLIENT_HTTPCLIENTCONNECTION_H
 
 #include "baseConnection.h"
+#include "types.h"
 
 class HttpClientConnection : public BaseConnection {
 public:
-    HttpClientConnection(ip::tcp::socket socket, std::map<std::string, std::string>) :
+    HttpClientConnection(ip::tcp::socket socket, mapType) :
             BaseConnection(std::move(socket)) {}
 
     bool isStart() override {}
@@ -20,6 +21,10 @@ protected:
     void onRead() override {}
     void doWrite() override {}
     void onWrite() override {}
+
+    std::string *pResponse;
+    boost::asio::streambuf reqBuffer;
+    boost::asio::streambuf resBuffer;
 };
 
 void helloConn();

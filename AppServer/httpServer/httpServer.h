@@ -5,20 +5,22 @@
 #define HTTPSERVER_H
 
 #include <boost/asio.hpp>
-#include "baseServer.h"
 
 using namespace boost::asio;
 
-class HttpServer : public BaseServer {
+class HttpServer {
 public:
-    HttpServer(ip::address address, unsigned short port) {}
+    HttpServer(ip::address &address, unsigned short port) {}
 
-    void run() override {}
+    void run() {}
 
 protected:
-    void accept() override {}
+    void accept() {}
 
     io_service ioContext;
+    ip::tcp::endpoint *endpoint = nullptr;
+    ip::tcp::acceptor *acceptor = nullptr;
+    ip::tcp::socket *socket = nullptr;
 };
 
 void helloServer();

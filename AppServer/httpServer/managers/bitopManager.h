@@ -6,14 +6,14 @@
 
 #include "httpClient.h"
 #include "cacheManager.h"
-#include "types.h"
+#include "../../baseClasses/types.h"
 
 class BitopManager {
 public:
     BitopManager(CacheManager *cacheManager, HttpClient *client) {}
     BitopManager() = default;
 
-    responseType getSchedule(mapType) {};
+    Response getSchedule(mapType) {};
 
 private:
     std::string token;
