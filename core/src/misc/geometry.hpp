@@ -1,7 +1,6 @@
 #ifndef BMSTU_MAP_CORE_GEOMETRY_HPP
 #define BMSTU_MAP_CORE_GEOMETRY_HPP
 
-
 #include "utils.hpp"
 
 namespace Core {
@@ -9,8 +8,10 @@ namespace Core {
         typedef double geometry_t;
 
         struct Vector2 {
-            geometry_t x;
-            geometry_t y;
+            geometry_t x, y;
+
+            Vector2(geometry_t X, geometry_t Y) : x(X), y(Y) { }
+            Vector2() : Vector2(0, 0) { }
         };
 
         typedef Vector2 Point;
