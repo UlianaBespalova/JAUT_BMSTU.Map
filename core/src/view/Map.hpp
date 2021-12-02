@@ -19,6 +19,8 @@ namespace Core {
             public:
                 Map(Model::Map *_model, IDrawer *_drawer) : model(_model), drawer(_drawer) { }
                 ~Map() = default;
+                Map(const Map &) = delete;
+                Map &operator=(const Map &) = delete;
 
                 void drawMap();
 
