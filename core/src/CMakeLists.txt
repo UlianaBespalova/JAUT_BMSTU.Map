@@ -15,6 +15,8 @@ set(LIB_HEADERS_FILES
         )
 set(LIB_SOURCE_FILES
         core.cpp
+        model/Map.cpp
+        view/Map.cpp
         )
 
 add_library(BMSTU_Map_Core SHARED ${LIB_HEADERS_FILES} ${LIB_SOURCE_FILES})

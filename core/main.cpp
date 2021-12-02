@@ -13,12 +13,14 @@ class DummyDrawer : public View::IDrawer {
         }
 
         void setColor(View::Color color) override {
-            printf("Setting a _color to #%02X%02X%02X\n", color.r, color.g, color.b);
+            printf("Setting a color to #%02X%02X%02X\n", color.r, color.g, color.b);
         }
 };
 
 int main(int argc, char *argv[])
 {
+    hello();
+
     const std::string FILENAME = "../test_data.json";
 
     std::ifstream i(FILENAME);
