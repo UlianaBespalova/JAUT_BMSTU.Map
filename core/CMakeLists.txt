@@ -28,5 +28,5 @@ endif()
 enable_testing()
 find_package(Threads)
 
-add_executable(core_tests tests/main.cpp tests/geometry.cpp tests/model.cpp tests/view.cpp)
+add_executable(core_tests tests/main.cpp tests/geometry_test.cpp tests/model_test.cpp tests/view_test.cpp)
 target_link_libraries(core_tests ${GTEST_LIBRARIES} pthread BMSTU_Map_Core)
