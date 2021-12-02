@@ -4,6 +4,10 @@ on:
   push:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./core
+
 jobs:
   static:
     name: Static formatters and analyzers
