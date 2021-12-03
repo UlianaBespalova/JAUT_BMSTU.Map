@@ -11,7 +11,7 @@ void Graph::add_top(int _id) {
 void Graph::add_edge(int id1, int id2, int time) {
 	Neighbour* ptr1 = get_pointer(id1);
 	Neighbour* ptr2 = get_pointer(id2);
-	if (ptr1 != nullptr && ptr2 != nullptr) {
+	if (ptr1 != nullptr && ptr2 != nullptr && id1 != id2) {
 		ptr1->edge.push_back({ ptr2, time });
 		ptr2->edge.push_back({ ptr1, time });
 	}
@@ -26,11 +26,90 @@ Neighbour* Graph::get_pointer(int id) {
 	return nullptr;
 }
 
+bool Graph::is_neighbours(int id1, int id2) {
+    Neighbour* ptr1 = get_pointer(id1);
+    Neighbour* ptr2 = get_pointer(id2);
+
+    for (auto& it: ptr1->edge) {
+        if (it.first == ptr2) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Graph::del_edge(int id1, int id2) {
+    if (!is_neighbours(id1, id2)) {
+        return false;
+    }
+
+    Neighbour* ptr1 = get_pointer(id1);
+    Neighbour* ptr2 = get_pointer(id2);
+
+
+    for (auto& it: ptr1->edge) {
+        if (it.first == ptr2) {
+            std::swap(it, ptr1->edge.back());
+            ptr1->edge.pop_back();
+            break;
+        }
+    }
+
+    for (auto& it: ptr2->edge) {
+        if (it.first == ptr1) {
+            std::swap(it, ptr2->edge.back());
+            ptr2->edge.pop_back();
+            break;
+        }
+    }
+
+    return true;
+}
+
+bool Graph::del_top(int _id) {
+    Neighbour* ptr = get_pointer(_id);
+    if (ptr == nullptr) {
+        return false;
+    }
+
+    for (auto& it: ptr->edge) {
+        Neighbour* ptr2 = it.first;
+        for (auto& it_: ptr2->edge) {
+            if (it_.first == ptr) {
+                std::swap(it_, ptr2->edge.back());
+                ptr2->edge.pop_back();
+                break;
+            }
+        }
+    }
+
+    if (ptr != &data.back()) {
+        change_ptr(data.back().id, _id);
+        std::swap(*ptr, data.back());
+    }
+    data.pop_back();
+
+    return true;
+}
+
+void Graph::change_ptr(int id1, int id2) {
+    Neighbour* ptr1 = get_pointer(id1);
+    Neighbour* ptr2 = get_pointer(id2);
+
+    for (auto& it : ptr1->edge) {
+        Neighbour* neighbour = it.first;
+        for (auto& it_ : neighbour->edge) {
+            if (it_.first->id == id1) {
+                it_.first = ptr2;
+            }
+        }
+    }
+}
+
 pair<vector<Neighbour*>, int> Graph::calculate_route(int _location, int _destination) {
 
 	Neighbour* location = get_pointer(_location);
 	Neighbour* destination = get_pointer(_destination);
-
 
 	queue<pair<vector<Neighbour*>, int>> route;
 	route.push({ {location}, 0 });
