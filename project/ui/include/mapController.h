@@ -5,13 +5,14 @@
 
 class MapController {
 public:
-  MapController(Drawer *drawer);
+  MapController();
   ~MapController();
-  bool scale(double newScale);
-  bool setFloor(int floor);
-  bool viewMoveBy(Point shift);
 
-private:
+  bool scale(double newScale);
+  bool setFloor(int newfloor);
+  bool viewMoveBy(QPoint shift);
+
+public:
   Drawer *drawer;
 };
 

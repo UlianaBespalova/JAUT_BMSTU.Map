@@ -1,6 +1,12 @@
-#include "mainWindow.h"
-#include "application.h"
+#include "../ui/include/mainWindow.h"
 
-int main(int argc, char *argv[]) {
-    return 0;
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.resize(800, 600);
+    w.show();
+    return a.exec();
 }
