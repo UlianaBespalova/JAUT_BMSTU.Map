@@ -35,6 +35,7 @@ private:
   QPushButton *BuildButton;
 
   MapController *controller;
+  // View::Map *mapview;
 protected:
   void paintEvent(QPaintEvent *event) override;
 

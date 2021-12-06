@@ -14,8 +14,6 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
   leTo = new QLineEdit();
   leFrom = new QLineEdit();
-  leTo->setPlaceholderText("");
-  leFrom->setPlaceholderText("");
   leTo->setFixedWidth(60);
   leFrom->setFixedWidth(60);
   leFrom->setStyleSheet("QLineEdit { "
@@ -109,9 +107,8 @@ void MainWindow::onBuildPressed() {
 
 void MainWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
-    setUpdatesEnabled(false);
-  QPainter *painter = new QPainter(this);
-  painter->scale(controller->drawer->getScale(),
+  QPainter painter(this);
+  painter.scale(controller->drawer->getScale(),
                  controller->drawer->getScale());
 
   Point start;
@@ -120,31 +117,30 @@ void MainWindow::paintEvent(QPaintEvent *event) {
   Point end;
   end.x = 400;
   end.y = 400;
-  controller->drawer->drawLine(painter, start, end);
+  controller->drawer->drawLine(&painter, start, end);
 
   start.x = 400;
   start.y = 100;
   end.x = 600;
   end.y = 100;
-  controller->drawer->drawLine(painter, start, end);
+  controller->drawer->drawLine(&painter, start, end);
 
   start.x = 600;
   start.y = 100;
   end.x = 600;
   end.y = 400;
-  controller->drawer->drawLine(painter, start, end);
+  controller->drawer->drawLine(&painter, start, end);
 
   start.x = 600;
   start.y = 400;
   end.x = 400;
   end.y = 400;
-  controller->drawer->drawLine(painter, start, end);
-  painter->end();
-    setUpdatesEnabled(true);
-
+  controller->drawer->drawLine(&painter, start, end);
+  painter.end();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
+
   qDebug() << "mouse pos - " << event->pos().x() << "  " << event->pos().y();
 }
 

@@ -1,8 +1,8 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-// #include <gmock/gmock.h>
 
-// #include "mainWindow.h"
-// #include "mapController.h"
+#include "mainWindow.h"
+#include "mapController.h"
 
 // class MockMainWindow : public MainWindow {
 // public:
@@ -18,24 +18,44 @@
 //     EXPECT_CALL(window, onLvFloorChanged()).Times(::testing::AnyNumber());
 // }
 
-// TEST(MapController, Scale) {
-//   double new_scale = 0.3 ;
-//   EXPECT_EQ(scale(new_scale), true);
-// }
+TEST(Drawer, getScaleView) {
+  Drawer drawer;
+  EXPECT_NO_FATAL_FAILURE(drawer.getViewPos());
+  EXPECT_NO_FATAL_FAILURE(drawer.getScale());
+}
 
-// TEST(MapController, ViewMoveByEmpy) { EXPECT_EQ(viewMoveBy(QPoint(0, 1)), true); }
+TEST(Drawer, setParams) {
+  Drawer drawer;
+  Color c;
+  c.r = 100;
+  c.g = 100;
+  c.b = 100;
+  Point p;
+  p.x = 100;
+  p.y = -200;
+  EXPECT_NO_FATAL_FAILURE(drawer.setColor(c));
+  EXPECT_NO_FATAL_FAILURE(drawer.setFloor(3));
+  EXPECT_NO_FATAL_FAILURE(drawer.setScale(1.2));
+  EXPECT_NO_FATAL_FAILURE(drawer.setViewPos(p));
+}
 
-// TEST(MapController, ViewMoveBy) {
-//   QPoint p;
-//   p.x(12);
-//   p.y(13);
+TEST(MapController, Scale) {
+  double new_scale = 0.3;
+  MapController controller;
+  EXPECT_EQ(controller.scale(new_scale), true);
+}
 
-//   EXPECT_EQ(viewMoveBy(p), false);
-// }
+TEST(MapController, ViewMoveByEmpy) {
+  MapController controller;
+  EXPECT_EQ(controller.viewMoveBy(QPoint(100, 100)), true);
+}
 
-// TEST(MapController, SetFloor) { EXPECT_EQ(setFloor(4), true); }
+TEST(MapController, SetFloor) {
+  MapController controller;
+  EXPECT_EQ(controller.setFloor(4), true);
+}
 
 int main(int argc, char *argv[]) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
