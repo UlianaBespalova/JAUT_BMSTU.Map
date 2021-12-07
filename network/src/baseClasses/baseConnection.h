@@ -4,8 +4,9 @@
 #ifndef BASECONNECTION_H
 #define BASECONNECTION_H
 
-#include "boost/enable_shared_from_this.hpp"
 #include <boost/asio.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/noncopyable.hpp>
 
 using namespace boost::asio;
 

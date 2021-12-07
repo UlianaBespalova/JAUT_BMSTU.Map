@@ -4,9 +4,9 @@
 #ifndef BITOPMANAGER_H
 #define BITOPMANAGER_H
 
-#include "httpClient.h"
+#include "httpClient/httpClient.h"
 #include "cacheManager.h"
-#include "../../baseClasses/types.h"
+#include "baseClasses/types.h"
 
 class BitopManager {
 public:

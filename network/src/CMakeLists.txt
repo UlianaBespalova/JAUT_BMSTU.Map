@@ -16,19 +16,26 @@ if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 
     # server
-    add_library(httpServer
+    add_library(httpServer SHARED
+            httpServer/httpServer.h
             httpServer/httpServer.cpp
+            httpServer/httpServerConnection.h
             httpServer/httpServerConnection.cpp
+            httpServer/router.h
             httpServer/router.cpp
             )
     add_library(bitopManager
+            httpServer/managers/bitopManager.h
             httpServer/managers/bitopManager.cpp
+            httpClient/httpClient.h
             httpClient/httpClient.cpp
             )
     add_library(mapManager
+            httpServer/managers/mapManager.h
             httpServer/managers/mapManager.cpp
             )
     add_library(cacheManager
+            httpServer/managers/cacheManager.h
             httpServer/managers/cacheManager.cpp
             )
 

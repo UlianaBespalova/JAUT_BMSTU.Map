@@ -4,9 +4,9 @@
 #ifndef ROUTER_H
 #define ROUTER_H
 
-#include "bitopManager.h"
-#include "mapManager.h"
-#include "types.h"
+#include "managers/bitopManager.h"
+#include "managers/mapManager.h"
+#include "baseClasses/types.h"
 
 class Router {
 public:

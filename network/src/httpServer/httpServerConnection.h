@@ -7,9 +7,9 @@
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
 
-#include "baseConnection.h"
+#include "baseClasses/baseConnection.h"
+#include "baseClasses/types.h"
 #include "router.h"
-#include "types.h"
 
 using namespace boost::beast;
 

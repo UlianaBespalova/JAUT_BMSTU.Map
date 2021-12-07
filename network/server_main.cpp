@@ -1,10 +1,9 @@
 #include <iostream>
 
-#include "httpServer.h"
-#include "httpServerConnection.h"
+#include "httpServer/httpServer.h"
+#include "httpServer/httpServerConnection.h"
 
 int main() {
-
     helloServer();
     helloServerConn();
     std::cout << "Hello httpServer!" << std::endl;

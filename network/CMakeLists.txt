@@ -3,9 +3,7 @@ project(BMSTU_JAUT_MAP_NETWORK_MAIN)
 
 # boost
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-#set(BOOST_USE_STATIC_LIBS on)
-set(BOOST_REQUESTED_VERSION 1.68.0)
-find_package(Boost COMPONENTS system asio)
+# set(BOOST_REQUESTED_VERSION 1.68.0)
 
 
 # src
