@@ -3,23 +3,16 @@
 #include <vector>
 #include <tuple>
 #include <algorithm>
+#include <sstream>
 #include <queue>
+
+#include "neighbour.h"
+#include "database.h"
 
 using namespace std;
 
-struct Neighbour {
-	int id;
-	vector<pair<Neighbour*, int>> edge;
-};
-
 class Graph {
 public:
-    //Graph(const Graph&) = delete;
-    //Graph(Graph&&) = delete;
-
-    //Graph& operator= (const Graph&) = delete;
-    //Graph& operator= (Graph&&) = delete;
-
 	void add_top(int _id);
 
 	void add_edge(int id1, int id2, int time);
@@ -30,18 +23,15 @@ public:
 
     bool is_neighbours(int id1, int id2);
 
-	pair<vector<Neighbour*>, int> calculate_route(int _location, int _destination);
+	pair<vector<int>, int> calculate_route(int location, int destination);
 
-	pair<vector<Neighbour*>, int> calculate_route(Neighbour* location, Neighbour* destination);
+    void save_data();
 
+    void load_data();
 private:
 	Neighbour* get_pointer(int id);
 
     void change_ptr(int id1, int id2);
-
-    void load_data();
-
-    void save_data();
 
 	vector<Neighbour> data;
 };

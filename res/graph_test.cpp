@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "graph.h"
+#include "database.h"
 
 TEST(calculate_route_test, Assert_0) {
     Graph g;
@@ -20,7 +21,7 @@ TEST(calculate_route_test, Assert_0) {
 	g.add_edge(6, 3, 2);
 	g.add_edge(6, 4, 2);
 
-	pair<vector<Neighbour*>, int> r = g.calculate_route(0, 6);
+	pair<vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -71,7 +72,7 @@ TEST(calculate_route_test2, Assert_2) {
     g.add_edge(6, 3, 2);
     g.add_edge(6, 4, 2);
 
-    pair<vector<Neighbour*>, int> r = g.calculate_route(0, 6);
+    pair<vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -108,7 +109,7 @@ TEST(calculate_route_test3, Assert_3) {
 
     g.add_edge(8, 5, 1);
 
-    pair<vector<Neighbour*>, int> r = g.calculate_route(0, 6);
+    pair<vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -123,6 +124,39 @@ TEST(calculate_route_test3, Assert_3) {
     r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 9);
+
+}
+
+TEST(calculate_route_test5, Assert_5) {
+    Graph g;
+    for (int i = 0; i < 7; i++) {
+        g.add_top(i);
+    }
+
+    g.add_edge(0, 1, 2);
+    g.add_edge(0, 2, 3);
+
+    g.add_edge(1, 3, 3);
+    g.add_edge(1, 4, 4);
+
+    g.add_edge(2, 5, 2);
+
+    g.add_edge(6, 5, 2);
+    g.add_edge(6, 3, 2);
+    g.add_edge(6, 4, 2);
+
+    g.save_data();
+}
+
+TEST(calculate_route_test4, Assert_4) {
+    Graph g;
+    g.load_data();
+
+    cout << "OK" << endl;
+
+    pair<vector<int>, int> r = g.calculate_route(0, 6);
+
+    EXPECT_EQ(r.second, 7);
 }
 
 int main(int argc, char **argv) {
