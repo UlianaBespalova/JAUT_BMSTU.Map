@@ -21,6 +21,9 @@ public:
 
     void read_table(vector<Neighbour>& data);
 
+    void read_json(const string& json_str);
+
+    void insert(string& json_str);
 private:
     bool connect_db();
 
@@ -31,6 +34,8 @@ private:
     string port = "5432";
     string table_name = "testdb";
     string table_format = "id integer PRIMARY KEY, neighbours integer[][]";
+
+    bool is_connected = false;
 
     connection Connection;
 };

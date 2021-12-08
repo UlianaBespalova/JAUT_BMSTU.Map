@@ -87,7 +87,6 @@ bool Graph::del_top(int _id) {
     }
 
     if (ptr != &data.back()) {
-        //change_ptr(data.back().id, _id);
         std::swap(*ptr, data.back());
     }
     data.pop_back();
@@ -96,9 +95,6 @@ bool Graph::del_top(int _id) {
 }
 
 pair<vector<int>, int> Graph::calculate_route(int location, int destination) {
-
-	//Neighbour* location = get_pointer(_location);
-	//Neighbour* destination = get_pointer(_destination);
 
 	queue<pair<vector<int>, int>> route;
 	route.push({ {location}, 0 });
@@ -149,7 +145,6 @@ void Graph::save_data() {
     Database db;
     for (const auto& it: data) {
         stringstream ss;
-        cout << "SS " << ss.str() << endl;
         ss << it.id << ", ARRAY[";
         for (const auto &it_: it.edge) {
             ss << "[" << it_.first << ", " << it_.second << "]";

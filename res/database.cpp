@@ -10,7 +10,7 @@ Database::Database() {
     connection Connection(ss.str().c_str());
 
     if (Connection.is_open()) {
-        cout << "OK" << endl;
+        is_connected = true;
     }
 
     create_table();
@@ -28,7 +28,8 @@ void Database::create_table() {
 
 void Database::insert_table(const string& values) {
     stringstream ss;
-    ss << "INSERT INTO " << table_name << " VALUES (" << values << ");";
+    ss << "INSERT INTO " << table_name << "(ID, neighbours) VALUES (" << values << ") "
+        << "ON CONFLICT (ID) DO UPDATE SET " << "neighbours=EXCLUDED.neighbours" << ";";
 
     work W(Connection);
     W.exec(ss.str().c_str());
@@ -63,24 +64,16 @@ void Database::read_table(vector<Neighbour>& data) {
 
             if (elem.first == pqxx::array_parser::juncture::string_value) {
                 neighbour = stoi(elem.second);
+                elem = arr.get_next();
+                if (elem.first == pqxx::array_parser::juncture::string_value) {
+                    duration = stoi(elem.second);
+                    cout << neighbour << " " << duration << endl;
+                    buffer.edge.push_back(make_pair(neighbour, duration));
+                }
             } else {
                 elem = arr.get_next();
-                continue;
             }
-
-            elem = arr.get_next();
-
-            if (elem.first == pqxx::array_parser::juncture::string_value) {
-                duration = stoi(elem.second);
-                cout << neighbour << " " << duration << endl;
-                buffer.edge.push_back(make_pair(neighbour, duration));
-            }
-
-
-            //elem = arr.get_next();
         }
-
         data.push_back(buffer);
     }
 }
-
