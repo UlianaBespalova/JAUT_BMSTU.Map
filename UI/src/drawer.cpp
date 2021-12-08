@@ -17,12 +17,10 @@ QPoint Drawer::rePoint(Point &point) {
 
 void Drawer::setFloor(int new_floor) {
     this->floor = new_floor;
-    qDebug() << "Floor changed";
 }
 
 void Drawer::setScale(qreal new_scale) {
     this->scale = new_scale;
-    qDebug() << "Scale changed";
 }
 
 void Drawer::drawLine(QPainter *painter, Point start, Point end) {

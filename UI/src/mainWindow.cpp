@@ -81,6 +81,48 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
           SLOT(onLvFloorChanged(const QModelIndex, const QModelIndex)));
 
   connect(BuildButton, SIGNAL(pressed()), this, SLOT(onBuildPressed()));
+
+  // Расписание
+  // QVBoxLayout *vbox2 = new QVBoxLayout(this);
+  QHBoxLayout *hbox2 = new QHBoxLayout();
+
+  room = new QLineEdit(this);
+  room->setFixedWidth(126);
+  room->setStyleSheet("QLineEdit { "
+                      "border: 1px solid black; "
+                      "border-radius: 2px; "
+                      "background-color: white; "
+                      "}");
+
+  FindTmTblButtom = new QPushButton(this);
+  FindTmTblButtom->setFixedSize(QSize(24, 21));
+  FindTmTblButtom->setStyleSheet("QPushButton { "
+                                 "border: 1px solid black; "
+                                 "border-radius: 2px; "
+                                 "background-color: white; "
+                                 "}");
+
+  hbox2->addWidget(room, 1, Qt::AlignRight);
+  hbox2->addWidget(FindTmTblButtom);
+
+  timeTable = new QLabel();
+  timeTable->setFixedHeight(145);
+  timeTable->setFixedWidth(150);
+  timeTable->setStyleSheet("QLabel { "
+                           "background-color: white; "
+                           "border: 1px solid black; "
+                           "border-radius: 2px; "
+                           "font: 10.5pt 'Helvetica';"
+                           "};"
+                           "QListView::item:selected {"
+                           "border: 1px;"
+                           "};");
+
+  vbox->setSpacing(0);
+  vbox->addLayout(hbox2);
+  vbox->addWidget(timeTable, 1, Qt::AlignRight);
+
+  connect(FindTmTblButtom, SIGNAL(pressed()), this, SLOT(onFindTmTblButtomPressed()));
 }
 
 MainWindow::~MainWindow() {
@@ -94,22 +136,29 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::onLvFloorChanged(const QModelIndex, const QModelIndex) {
-  qDebug() << "Lvl changed ";
-  qDebug() << lvlFloor->currentIndex().row();
+  controller->setFloor(lvlFloor->currentIndex().row());
 }
 
 void MainWindow::onBuildPressed() {
   qDebug() << "Build button pressed!  ";
-  qDebug() << leTo->text().toInt() << "    " << leFrom->text().toInt();
+  qDebug() << leTo->text() << "    " << leFrom->text();
   leTo->clear();
   leFrom->clear();
+}
+
+void MainWindow::onFindTmTblButtomPressed() {
+  qDebug() << "Find timetable pressed!  ";
+  QString data = "There will be a \ntimetable!";
+  qDebug() << room->text();
+  timeTable->setText(data);
+  
+  room->clear();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
   QPainter painter(this);
-  painter.scale(controller->drawer->getScale(),
-                 controller->drawer->getScale());
+  painter.scale(controller->drawer->getScale(), controller->drawer->getScale());
 
   Point start;
   start.x = 400;
@@ -140,15 +189,25 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-
-  qDebug() << "mouse pos - " << event->pos().x() << "  " << event->pos().y();
+  if (event->button() == Qt::MouseButton::LeftButton) {
+    qDebug() << "mouse pos - " << event->pos().x() << "  " << event->pos().y();
+    this->pressed = true;
+    this->prev_pos = event->pos();
+  }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-  controller->viewMoveBy(event->pos());
-  setUpdatesEnabled(false);
-  update();
-  setUpdatesEnabled(true);
+  if (this->pressed) {
+    auto shift = event->pos() - this->prev_pos;
+    controller->viewMoveBy(shift);
+    this->prev_pos = event->pos();
+    update();
+  }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+  if (event->button() == Qt::MouseButton::LeftButton)
+    this->pressed = false;
 }
 
 void MainWindow::mouseDoubleClickEvent(QMouseEvent *event) {
