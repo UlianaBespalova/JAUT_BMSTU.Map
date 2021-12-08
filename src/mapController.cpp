@@ -1,7 +1,7 @@
 #include "mapController.h"
 
-MapController::MapController() {
-    drawer = new Drawer();
+MapController::MapController(QPainter *painter) {
+    drawer = new Drawer(painter);
 }
 
 MapController::~MapController() {

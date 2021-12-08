@@ -1,6 +1,6 @@
 #include "core/core.hpp"
 #include "network/httpClient.h"
-#include "ui/mainWindow.h"
+#include "BMSTU_Map/mainWindow.h"
 
 #include <QApplication>
 

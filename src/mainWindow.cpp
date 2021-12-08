@@ -1,7 +1,7 @@
 #include "mainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
-  controller = new MapController();
+  controller = new MapController(new QPainter(this));
 
   setWindowTitle("BMSTUMap");
 
@@ -157,35 +157,7 @@ void MainWindow::onFindTmTblButtomPressed() {
 
 void MainWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
-  QPainter painter(this);
-  painter.scale(controller->drawer->getScale(), controller->drawer->getScale());
-
-  Point start;
-  start.x = 400;
-  start.y = 100;
-  Point end;
-  end.x = 400;
-  end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
-
-  start.x = 400;
-  start.y = 100;
-  end.x = 600;
-  end.y = 100;
-  controller->drawer->drawLine(&painter, start, end);
-
-  start.x = 600;
-  start.y = 100;
-  end.x = 600;
-  end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
-
-  start.x = 600;
-  start.y = 400;
-  end.x = 400;
-  end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
-  painter.end();
+//  mapview->drawMap();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {

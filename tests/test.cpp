@@ -1,8 +1,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "ui/mainWindow.h"
-#include "ui/mapController.h"
+#include "BMSTU_Map/mainWindow.h"
+#include "BMSTU_Map/mapController.h"
 
 // class MockMainWindow : public MainWindow {
 // public:

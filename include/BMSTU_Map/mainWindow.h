@@ -13,23 +13,16 @@
 #include <QWidget>
 
 #include "mapController.h"
-
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
-QT_END_NAMESPACE
+#include "core/ViewMap.hpp"
 
 class MainWindow : public QWidget {
   Q_OBJECT
 
 public:
-  explicit MainWindow(QWidget *parent = 0);
+  explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow() override;
 
 private:
-  // Ui::MainWindow *ui;
-
   QListView *lvlFloor;
   QStringListModel *model;
   QLineEdit *leFrom, *leTo, *room;
@@ -40,7 +33,7 @@ private:
 
   bool pressed = false;
   QPoint prev_pos;
-  // View::Map *mapview;
+//  Core::View::Map *mapview;
 protected:
   void paintEvent(QPaintEvent *event) override;
 
