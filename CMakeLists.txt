@@ -1,23 +1,26 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
-project(UIClient VERSION 0.1 LANGUAGES CXX)
+set(PROJECT_NAME BMSTU_Map)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(SOURCE_DIR src)
+set(SOURCE
+        ${SOURCE_DIR}/main.cpp
+        )
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+set(LIBS_DIR libs)
+set(LIBS
+        core
+        network
+#        UI
+        )
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(${PROJECT_NAME})
 
-add_compile_options(-Wall -Werror -Wextra -Wpedantic)
+# TODO: Gtest ?
 
-find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+add_executable(${PROJECT_NAME} ${SOURCE})
 
-add_subdirectory(project/ui)
-
-add_executable(UIClient project/src/main.cpp)
-
-target_link_libraries(UIClient Qt5::Widgets ui)
+foreach(LIB ${LIBS})
+    add_subdirectory("${LIBS_DIR}/${LIB}")
+endforeach(LIB)
+target_link_libraries(${PROJECT_NAME} ${LIBS})
