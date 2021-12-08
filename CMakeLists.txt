@@ -11,7 +11,7 @@ set(LIBS_DIR libs)
 set(LIBS
         core
         network
-#        UI
+        ui
         )
 
 project(${PROJECT_NAME})
