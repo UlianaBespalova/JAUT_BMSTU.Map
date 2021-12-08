@@ -152,11 +152,27 @@ TEST(calculate_route_test4, Assert_4) {
     Graph g;
     g.load_data();
 
-    cout << "OK" << endl;
-
     pair<vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
+}
+
+TEST(calculate_route_test6, Assert_6) {
+
+    string s = "{\"query\": \"Victor Ivan\", \"count\": 7}";
+    s = "{\n  \"floors\": [\n    {\n      \"floor\": 5,\n      \"rooms\": [\n        {\n          \"type\": 2,\n          \"walls\": [\n            { \"start\": [100, 100], \"end\": [100, 250] },\n            { \"start\": [100, 250], \"end\": [700, 250] },\n            { \"start\": [700, 250], \"end\": [700, 100] },\n            { \"start\": [700, 100], \"end\": [100, 100] }\n          ],\n          \"properties\": {\n            \"description\": \"Main hallway\"\n          }\n        },\n        {\n          \"type\": 1,\n          \"walls\": [\n            { \"start\": [100, 250], \"end\": [100, 350] },\n            { \"start\": [100, 350], \"end\": [200, 350] },\n            { \"start\": [200, 350], \"end\": [200, 250] },\n            { \"start\": [200, 250], \"end\": [175, 250] },\n            { \"start\": [175, 250], \"end\": [125, 250], \"type\": 2 },\n            { \"start\": [125, 250], \"end\": [100, 250] }\n          ],\n          \"properties\": {\n            \"description\": \"W\/C\",\n            \"gender\": \"F\"\n          }\n        }\n      ]\n    }\n  ]\n}";
+    cout << s << endl;
+
+    Database db(db.JSON_TABLE_NAME, db.JSON_TABLE_FORMAT);
+    db.insert_json(s);
+
+}
+
+TEST(calculate_route_test7, Assert_7) {
+    string s;
+    Database db(db.JSON_TABLE_NAME, db.JSON_TABLE_FORMAT);
+    db.read_json(s);
+
 }
 
 int main(int argc, char **argv) {

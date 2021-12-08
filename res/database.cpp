@@ -16,6 +16,22 @@ Database::Database() {
     create_table();
 }
 
+Database::Database(const string& t_name, const string& t_format) : table_name(t_name), table_format(t_format) {
+    stringstream ss;
+    ss << "dbname = " << dbname << " user = " << user << " password = "
+       << password << " hostaddr = " << host_address << " port = " << port;
+
+    cout << ss.str() << endl;
+
+    connection Connection(ss.str().c_str());
+
+    if (Connection.is_open()) {
+        is_connected = true;
+    }
+
+    create_table();
+}
+
 void Database::create_table() {
     stringstream ss;
     ss << "CREATE TABLE IF NOT EXISTS " << table_name << "(" << table_format << ");";
@@ -36,7 +52,6 @@ void Database::insert_table(const string& values) {
     W.commit();
     Connection.disconnect();
 }
-
 
 void Database::read_table(vector<Neighbour>& data) {
     stringstream ss;
@@ -76,4 +91,29 @@ void Database::read_table(vector<Neighbour>& data) {
         }
         data.push_back(buffer);
     }
+    Connection.disconnect();
+}
+
+
+void Database::insert_json(const string& json_str) {
+    stringstream ss;
+    ss << "INSERT INTO " << table_name << "(doc) VALUES ('" << json_str << "') "
+       << "ON CONFLICT DO NOTHING;";
+
+    work W(Connection);
+    W.exec(ss.str().c_str());
+    W.commit();
+    Connection.disconnect();
+}
+
+void Database::read_json(string& json_str) {
+    stringstream ss;
+    ss << "SELECT * from " << table_name;
+
+    work N(Connection);
+    result R(N.exec(ss.str().c_str()));
+
+    cout << "READ FROM DB: " << R[0][0] << endl;
+
+    Connection.disconnect();
 }
