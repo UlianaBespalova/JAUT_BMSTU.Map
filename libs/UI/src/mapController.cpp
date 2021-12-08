@@ -10,6 +10,7 @@ MapController::~MapController() {
 
 bool MapController::setFloor(int newfloor) {
     drawer->setFloor(newfloor);
+    qDebug() << "Lvl changed ";
     return true;
 }
 
@@ -19,9 +20,9 @@ bool MapController::scale(double newScale) {
 }
 
 bool MapController::viewMoveBy(QPoint shift) {
-    Point new_pos;
-    new_pos.x = shift.x() - drawer->getViewPos().x;
-    new_pos.y = shift.y() - drawer->getViewPos().y;
-    drawer->setViewPos(new_pos);
+    Point pos = drawer->getViewPos();
+    pos.x += shift.x();
+    pos.y += shift.y();
+    drawer->setViewPos(pos);
     return true;
 }
