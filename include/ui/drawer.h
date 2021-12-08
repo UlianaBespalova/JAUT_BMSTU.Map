@@ -23,7 +23,7 @@ private:
   QPoint rePoint(Point &point);
 
 public:
-  explicit Drawer(QPainter *painter);
+  Drawer();
   ~Drawer();
   void drawLine(Point start, Point end) override;
   void setFloor(int new_floor);

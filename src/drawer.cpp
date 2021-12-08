@@ -1,6 +1,6 @@
 #include "drawer.h"
 
-Drawer::Drawer(QPainter *painter_) {
+Drawer::Drawer() {
     view_pos.x = 0;
     view_pos.y = 0;
     floor = 0;

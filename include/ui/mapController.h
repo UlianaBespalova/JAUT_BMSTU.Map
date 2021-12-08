@@ -5,7 +5,7 @@
 
 class MapController {
 public:
-  explicit MapController(QPainter *painter);
+  MapController();
   ~MapController();
 
   bool scale(double newScale);

@@ -1,7 +1,7 @@
 #include "mainWindow.h"
 
 MainWindow::MainWindow(Core::Model::Map *map_model) : QWidget() {
-  controller = new MapController(new QPainter(this));
+  controller = new MapController();
   mapview = new Core::View::Map(map_model, controller->drawer);
 
   setWindowTitle("BMSTUMap");
