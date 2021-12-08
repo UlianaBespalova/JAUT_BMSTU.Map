@@ -13,13 +13,14 @@
 #include <QWidget>
 
 #include "mapController.h"
+#include "core/ModelMap.hpp"
 #include "core/ViewMap.hpp"
 
 class MainWindow : public QWidget {
   Q_OBJECT
 
 public:
-  explicit MainWindow(QWidget *parent = nullptr);
+  explicit MainWindow(Core::Model::Map *model);
   ~MainWindow() override;
 
 private:
@@ -33,7 +34,8 @@ private:
 
   bool pressed = false;
   QPoint prev_pos;
-//  Core::View::Map *mapview;
+  Core::View::Map *mapview;
+
 protected:
   void paintEvent(QPaintEvent *event) override;
 

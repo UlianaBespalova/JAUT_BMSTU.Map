@@ -29,7 +29,6 @@ namespace Core {
                 IDrawer *drawer;
 
                 void drawRoom(const Model::Map::Room &room);
-
                 void drawWall(const Model::Map::Wall &wall);
         };
     }

@@ -19,7 +19,6 @@ private:
   QPoint *matrix;
 
   QPen pen;
-    QPainter *painter;
 
   QPoint rePoint(Point &point);
 
@@ -34,6 +33,7 @@ public:
   qreal getScale();
   Point getViewPos();
 
+  QPainter *painter;
 };
 
 #endif // DRAWER_H

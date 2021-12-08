@@ -38,7 +38,7 @@ project(${PROJECT_NAME})
 # TODO: Gtest ?
 
 
-add_executable(${PROJECT_NAME} ${SOURCE})
+add_executable(${PROJECT_NAME} ${SOURCE} ${HEADERS})
 
 # Qt5
 find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)

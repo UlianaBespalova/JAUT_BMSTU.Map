@@ -1,6 +1,6 @@
 #include "drawer.h"
 
-Drawer::Drawer(QPainter *painter_) : painter(painter_){
+Drawer::Drawer(QPainter *painter_) {
     view_pos.x = 0;
     view_pos.y = 0;
     floor = 0;
@@ -21,10 +21,10 @@ void Drawer::setFloor(int new_floor) {
 
 void Drawer::setScale(qreal new_scale) {
     this->scale = new_scale;
-    this->painter->scale(scale, scale);
 }
 
 void Drawer::drawLine(Point start, Point end) {
+    // TODO: screen over border check!
     painter->setPen(pen);
     painter->drawLine(rePoint(start), rePoint(end));
 }
