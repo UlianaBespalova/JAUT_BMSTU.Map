@@ -75,14 +75,18 @@ TEST(MapModel, parse_full)
     Model::Map::Room hallway = model.getRooms()[0];
     EXPECT_EQ(hallway.floor, 5);
     EXPECT_EQ(hallway.type, Model::Map::Room::Type::Corridor);
-    EXPECT_NE(hallway.properties.find("description"), hallway.properties.end());
+
+    EXPECT_FALSE(hallway.properties.find("description") == hallway.properties.end());
     EXPECT_EQ(hallway.properties["description"], "Main hallway");
+
 
     Model::Map::Room bathroom = model.getRooms()[1];
     EXPECT_EQ(bathroom.floor, 5);
     EXPECT_EQ(bathroom.type, Model::Map::Room::Type::Cabinet);
-    EXPECT_NE(bathroom.properties.find("description"), hallway.properties.end());
+
+    EXPECT_FALSE(bathroom.properties.find("description") == hallway.properties.end());
     EXPECT_EQ(bathroom.properties["description"], "W/C");
-    EXPECT_NE(bathroom.properties.find("gender"), hallway.properties.end());
+
+    EXPECT_FALSE(bathroom.properties.find("gender") == hallway.properties.end());
     EXPECT_EQ(bathroom.properties["gender"], "F");
 }

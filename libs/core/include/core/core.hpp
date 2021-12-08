@@ -6,7 +6,7 @@
 #include "ViewMap.hpp"
 
 namespace Core {
-    void hello();
+
 }
 
 #endif //BMSTU_MAP_CORE_HPP
