@@ -28,7 +28,7 @@ public:
 
     void read_table(vector<Neighbour>& data);
 
-    void read_json(string& json_str);
+    string read_json();
 
     void insert_json(const string& json_str);
 private:

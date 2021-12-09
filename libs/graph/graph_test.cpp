@@ -170,8 +170,7 @@ TEST(insert_json_test, Assert_6) {
 TEST(read_json_test, Assert_7) {
     string s;
     Database db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
-    db.read_json(s);
-
+    s = db.read_json();
 }
 
 int main(int argc, char **argv) {

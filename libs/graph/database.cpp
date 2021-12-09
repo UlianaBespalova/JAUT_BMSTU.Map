@@ -98,12 +98,12 @@ void Database::insert_json(const string& json_str) {
     W.commit();
 }
 
-void Database::read_json(string& json_str) {
+string Database::read_json() {
     stringstream ss;
     ss << "SELECT * from " << table_name;
 
     work N(Connection);
     result R(N.exec(ss.str().c_str()));
 
-    cout << "READ FROM DB: " << R[0][0] << endl;
+    return R[0][0].c_str();
 }
