@@ -4,7 +4,7 @@
 #ifndef CACHEMANAGER_H
 #define CACHEMANAGER_H
 
-#include "../../baseClasses/types.h"
+#include "../serverTypes.h"
 
 class CacheManager {
 public:

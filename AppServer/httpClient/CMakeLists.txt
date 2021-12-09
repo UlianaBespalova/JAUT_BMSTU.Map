@@ -16,16 +16,21 @@ set(Boost_USE_MULTITHREADED      ON)
 
 if(Boost_FOUND)
 
-#    include_directories(${Boost_INCLUDE_DIRS})
-#
-#    set(LIB_DIR httpClient)
-#    set(LIB_SOURCE_FILES ${LIB_DIR}/httpClient.cpp)
-#    add_library(httpClient_library SHARED ${LIB_SOURCE_FILES})
-#    target_include_directories(httpClient_library PUBLIC ${Boost_LIBRARIES})
+    include_directories(${Boost_INCLUDE_DIRS})
+
+    set(LIB_DIR httpClient)
+    set(LIB_SOURCE_FILES ${LIB_DIR}/httpClient.cpp)
+    add_library(httpClient SHARED ${LIB_SOURCE_FILES})
+    target_include_directories(httpClient PUBLIC ${Boost_LIBRARIES})
+
+#-------------------------
+#add_library(httpClient httpClient.cpp httpClientConnection.cpp)
 
     add_executable(httpClient_run main.cpp)
-    target_link_libraries(httpClient_run httpClient_library ${CMAKE_DL_LIBS})
+    target_link_libraries(httpClient_run httpClient ${CMAKE_DL_LIBS})
     target_link_libraries(httpClient_run pthread)
+    target_link_libraries(httpClient_run ssl)
+    target_link_libraries(httpClient_run crypto)
 endif()
 
 

@@ -4,16 +4,18 @@
 #ifndef MAPMANAGER_H
 #define MAPMANAGER_H
 
-#include "../../baseClasses/types.h"
+#include "../serverTypes.h"
+#include "serializers.h"
+
+
+typedef std::map<std::string, std::string> Params;
 
 class MapManager {
 public:
     MapManager() = default;
 
-    mapType getMap() {};
-    mapType getFloor(mapType) {};
-
-    mapType getShortestPath(mapType);
+    ResponseString getMap();
+    ResponseString getFloor(Request);
 };
 
 #endif //MAPMANAGER_H

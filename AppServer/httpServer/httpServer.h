@@ -5,24 +5,28 @@
 #define HTTPSERVER_H
 
 #include <boost/asio.hpp>
+#include "router.h"
 
 using namespace boost::asio;
 
 class HttpServer {
 public:
-    HttpServer(ip::address &address, unsigned short port) {}
+    HttpServer(std::string& address, int port);
 
-    void run() {}
+    void run();
 
 protected:
-    void accept() {}
+    void accept();
 
-    io_service ioContext;
-    ip::tcp::endpoint *endpoint = nullptr;
-    ip::tcp::acceptor *acceptor = nullptr;
-    ip::tcp::socket *socket = nullptr;
+    ip::tcp::endpoint endpoint;
+    io_context context;
+    ip::tcp::socket socket;
+    ip::tcp::acceptor acceptor;
+
+    BitopManager *bitopManager = new BitopManager();
+    MapManager *mapManager = new MapManager();
+
+    Router router = Router(bitopManager, mapManager);
 };
-
-void helloServer();
 
 #endif //HTTPSERVER_H

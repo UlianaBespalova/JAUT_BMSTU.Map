@@ -6,17 +6,18 @@
 
 #include "bitopManager.h"
 #include "mapManager.h"
-#include "types.h"
+#include "serverTypes.h"
 
 class Router {
 public:
-    Router (BitopManager *bitopManager, MapManager *mapManager) {}
+    Router (BitopManager *bitopManager, MapManager *mapManager);
     Router() = default;
-    Response execute(Request request) {}
+    virtual ~Router() = default;
+    ResponseString execute(Request& request);
 
 private:
-    BitopManager *bitopManager;
-    MapManager *mapManager;
+    BitopManager *bitopManager = new BitopManager();
+    MapManager *mapManager = new MapManager();
 };
 
 #endif //ROUTER_H

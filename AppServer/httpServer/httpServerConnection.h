@@ -7,32 +7,35 @@
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
 
-#include "baseConnection.h"
-#include "router.h"
-#include "types.h"
+#include "boost/enable_shared_from_this.hpp"
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
 
+#include "router.h"
+#include "serverTypes.h"
+
+using namespace boost::asio;
 using namespace boost::beast;
 
-class HttpServerConnection : public BaseConnection {
+class HttpServerConnection : public boost::enable_shared_from_this<HttpServerConnection>{
 public:
-    HttpServerConnection(boost::asio::ip::tcp::socket socket, Router *router) :
-    BaseConnection(std::move(socket)), router(router) {}
-    virtual ~HttpServerConnection() = default;
+    HttpServerConnection(ip::tcp::socket socket, Router* router);
+    ~HttpServerConnection() = default;
 
-    bool isStart() override {}
-    void start() override {}
-    void stop() override {}
+    void start();
 
 protected:
-    void doRead() override {}
-    void onRead() override {}
-    void doWrite() override {}
-    void onWrite() override {}
+    void doRead();
+    void onRead();
+    void doWrite();
+    void onWrite();
 
-    flat_buffer buffer{1024};
+    flat_buffer buffer{8192};
     Request request;
-    Response response;
-    Router *router;
+    ResponseString response;
+
+    ip::tcp::socket socket;
+    Router* router;
 };
 
 void helloServerConn();
