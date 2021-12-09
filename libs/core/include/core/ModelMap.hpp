@@ -33,7 +33,7 @@ namespace Core {
                 Map(const Map &) = delete;
                 Map &operator=(const Map &) = delete;
 
-                inline const std::vector<Room> &getRooms() { return rooms; };
+                inline const std::vector<Room> &getRooms() const { return rooms; };
                 inline static const std::vector<Wall> &getWalls(const Room &room) { return room.walls; };
         };
 

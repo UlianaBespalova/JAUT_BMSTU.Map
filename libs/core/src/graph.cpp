@@ -2,9 +2,9 @@
 
 using namespace std;
 
-void Graph::add_top(int _id) {
+void Graph::add_top(int _id, Model::Map::Room *r) {
     if (get_pointer(_id) == nullptr){
-        data.push_back({ _id, {} });
+        data.push_back({ _id, {}, r });
     }
 }
 
@@ -12,12 +12,12 @@ void Graph::add_edge(int id1, int id2, int time) {
 	Neighbour* ptr1 = get_pointer(id1);
 	Neighbour* ptr2 = get_pointer(id2);
 	if (ptr1 != nullptr && ptr2 != nullptr) {
-		ptr1->edge.push_back({ ptr2, time });
-		ptr2->edge.push_back({ ptr1, time });
+		ptr1->edge.emplace_back( ptr2, time );
+		ptr2->edge.emplace_back( ptr1, time );
 	}
 }
 
-Neighbour* Graph::get_pointer(int id) {
+Graph::Neighbour* Graph::get_pointer(int id) {
 	for (auto& it : data) {
 		if (it.id == id) {
 			return &it;
@@ -26,7 +26,7 @@ Neighbour* Graph::get_pointer(int id) {
 	return nullptr;
 }
 
-pair<vector<Neighbour*>, int> Graph::calculate_route(int _location, int _destination) {
+pair<vector<Graph::Neighbour*>, int> Graph::calculate_route(int _location, int _destination) {
 
 	Neighbour* location = get_pointer(_location);
 	Neighbour* destination = get_pointer(_destination);

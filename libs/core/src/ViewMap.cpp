@@ -2,6 +2,8 @@
 
 using namespace Core;
 
+View::Map::Map(Model::Map *_model, View::IDrawer *_drawer) : model(_model), drawer(_drawer), path() { }
+
 void View::Map::drawMap() {
     assert(drawer != nullptr);
     assert(model != nullptr);
@@ -9,6 +11,8 @@ void View::Map::drawMap() {
     for (const auto &room: model->getRooms()) {
         drawRoom(room);
     }
+    if (hasPath)
+        drawPath(path);
 }
 
 void View::Map::drawRoom(const Model::Map::Room &room) {
@@ -37,4 +41,18 @@ void View::Map::drawRoom(const Model::Map::Room &room) {
 
 void View::Map::drawWall(const Model::Map::Wall &wall) {
     drawer->drawLine(wall.start, wall.end);
+}
+
+void View::Map::setPath(const Path &p)
+{
+    hasPath = true;
+    this->path = p;
+}
+
+void View::Map::drawPath(const Path &p)
+{
+    drawer->setColor({ 255, 0, 0 });
+    for (int i = 1; i < p.size(); ++i) {
+        drawer->drawLine(p[i - 1], p[i]);
+    }
 }

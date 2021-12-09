@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "graph.h"
+#include "core/graph.h"
 
 TEST(calculate_route_test, Assert_0) {
     Graph g;
@@ -29,9 +29,4 @@ TEST(calculate_route_test, Assert_0) {
     r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 3);
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

@@ -9,6 +9,7 @@ set(LIB_TESTS_SOURCE
         model_test.cpp
         geometry_test.cpp
         view_test.cpp
+        graph_test.cpp
         )
 
 project(${TEST_PROJECT_NAME})

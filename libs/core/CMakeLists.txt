@@ -12,12 +12,14 @@ set(LIB_HEADERS_FILES
         ${LIB_HEADERS_DIR}/geometry.hpp
         ${LIB_HEADERS_DIR}/ModelMap.hpp
         ${LIB_HEADERS_DIR}/ViewMap.hpp
+        ${LIB_HEADERS_DIR}/graph.h
         )
 
 set(LIB_SOURCE_FILES
         ${LIB_SOURCE_DIR}/core.cpp
         ${LIB_SOURCE_DIR}/ModelMap.cpp
         ${LIB_SOURCE_DIR}/ViewMap.cpp
+        ${LIB_SOURCE_DIR}/graph.cpp
         )
 
 project(${PROJECT_NAME})

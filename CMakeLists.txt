@@ -1,13 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 11)
-
-
 set(PROJECT_NAME BMSTU_Map)
 
 set(HEADERS_DIR include/${PROJECT_NAME})
@@ -51,6 +44,10 @@ set(LIB_SOURCE_FILES
         )
 
 
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 add_library(${LIB_NAME} SHARED ${LIB_HEADERS_FILES} ${LIB_SOURCE_FILES})
 
 # sources & headers
@@ -73,7 +70,7 @@ target_link_libraries(${LIB_NAME} Qt5::Widgets)
 
 add_subdirectory(tests)
 
-
+set(CMAKE_AUTOMOC OFF)
 # libs
 foreach (LIB ${LIBS})
     add_subdirectory("${LIBS_DIR}/${LIB}")

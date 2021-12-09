@@ -17,17 +17,24 @@ namespace Core {
 
         class Map {
             public:
-                Map(Model::Map *_model, IDrawer *_drawer) : model(_model), drawer(_drawer) { }
+                typedef std::vector<Geometry::Point> Path;
+
+                Map(Model::Map *_model, IDrawer *_drawer);
                 ~Map() = default;
                 Map(const Map &) = delete;
                 Map &operator=(const Map &) = delete;
 
                 void drawMap();
+                void setPath(const Path &path);
 
             protected:
                 Model::Map *model;
                 IDrawer *drawer;
 
+                Path path;
+                bool hasPath = false;
+
+                void drawPath(const Path &room);
                 void drawRoom(const Model::Map::Room &room);
                 void drawWall(const Model::Map::Wall &wall);
         };

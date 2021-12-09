@@ -35,6 +35,7 @@ private:
   bool pressed = false;
   QPoint prev_pos;
   Core::View::Map *mapview;
+  Core::Model::Map *mapmodel;
 
 protected:
   void paintEvent(QPaintEvent *event) override;
