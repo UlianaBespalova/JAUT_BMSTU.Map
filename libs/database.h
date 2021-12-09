@@ -11,11 +11,16 @@
 using namespace std;
 using namespace pqxx;
 
+const string JSON_TABLE_NAME = "json_table";
+const string JSON_TABLE_FORMAT = "doc jsonb NOT NULL";
+
 class Database {
 public:
     Database();
 
     Database(const string& t_name, const string& t_format);
+
+    ~Database();
 
     void create_table();
 
@@ -26,11 +31,7 @@ public:
     void read_json(string& json_str);
 
     void insert_json(const string& json_str);
-
-    const string JSON_TABLE_NAME = "json_table";
-    const string JSON_TABLE_FORMAT = "doc jsonb NOT NULL";
 private:
-    bool connect_db();
 
     string dbname = "ruslan16";
     string user = "ruslan16";
@@ -39,8 +40,6 @@ private:
     string port = "5432";
     string table_name = "testdb";
     string table_format = "id integer PRIMARY KEY, neighbours integer[][]";
-
-    bool is_connected = false;
 
     connection Connection;
 };

@@ -9,11 +9,11 @@ Database::Database() {
 
     connection Connection(ss.str().c_str());
 
-    if (Connection.is_open()) {
-        is_connected = true;
-    }
-
     create_table();
+}
+
+Database::~Database() {
+    Connection.disconnect();
 }
 
 Database::Database(const string& t_name, const string& t_format) : table_name(t_name), table_format(t_format) {
@@ -25,10 +25,6 @@ Database::Database(const string& t_name, const string& t_format) : table_name(t_
 
     connection Connection(ss.str().c_str());
 
-    if (Connection.is_open()) {
-        is_connected = true;
-    }
-
     create_table();
 }
 
@@ -39,7 +35,6 @@ void Database::create_table() {
     work W(Connection);
     W.exec(ss.str().c_str());
     W.commit();
-    Connection.disconnect();
 }
 
 void Database::insert_table(const string& values) {
@@ -50,7 +45,6 @@ void Database::insert_table(const string& values) {
     work W(Connection);
     W.exec(ss.str().c_str());
     W.commit();
-    Connection.disconnect();
 }
 
 void Database::read_table(vector<Neighbour>& data) {
@@ -91,7 +85,6 @@ void Database::read_table(vector<Neighbour>& data) {
         }
         data.push_back(buffer);
     }
-    Connection.disconnect();
 }
 
 
@@ -103,7 +96,6 @@ void Database::insert_json(const string& json_str) {
     work W(Connection);
     W.exec(ss.str().c_str());
     W.commit();
-    Connection.disconnect();
 }
 
 void Database::read_json(string& json_str) {
@@ -114,6 +106,4 @@ void Database::read_json(string& json_str) {
     result R(N.exec(ss.str().c_str()));
 
     cout << "READ FROM DB: " << R[0][0] << endl;
-
-    Connection.disconnect();
 }
