@@ -22,10 +22,7 @@ mapController.h
 
 add_library(UIClient SHARED ${UI_SRC} ${UI_HDR})
 
-
 find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
-
 
 target_link_libraries(UIClient Qt5::Widgets)

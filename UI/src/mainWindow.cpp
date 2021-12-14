@@ -44,15 +44,12 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
   model = new QStringListModel();
   QStringList list;
-  list << "1 этаж"
-       << "2 этаж"
-       << "3 этаж"
-       << "4 этаж";
-  list << "5 этаж"
-       << "6 этаж"
-       << "7 этаж"
-       << "8 этаж"
-       << "9 этаж";
+  QString str;
+  for (size_t i = 1; i < 10; i++) {
+    str = QString("%1 этаж").arg(i);
+    list << str;
+  }
+
   model->setStringList(list);
 
   lvlFloor = new QListView(this);
@@ -82,8 +79,6 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
   connect(BuildButton, SIGNAL(pressed()), this, SLOT(onBuildPressed()));
 
-  // Расписание
-  // QVBoxLayout *vbox2 = new QVBoxLayout(this);
   QHBoxLayout *hbox2 = new QHBoxLayout();
 
   room = new QLineEdit(this);
@@ -122,7 +117,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   vbox->addLayout(hbox2);
   vbox->addWidget(timeTable, 1, Qt::AlignRight);
 
-  connect(FindTmTblButtom, SIGNAL(pressed()), this, SLOT(onFindTmTblButtomPressed()));
+  connect(FindTmTblButtom, SIGNAL(pressed()), this,
+          SLOT(onFindTmTblButtomPressed()));
 }
 
 MainWindow::~MainWindow() {
@@ -151,63 +147,67 @@ void MainWindow::onFindTmTblButtomPressed() {
   QString data = "There will be a \ntimetable!";
   qDebug() << room->text();
   timeTable->setText(data);
-  
+
   room->clear();
 }
 
-void MainWindow::paintEvent(QPaintEvent *event) {
-  Q_UNUSED(event);
-  QPainter painter(this);
-  painter.scale(controller->drawer->getScale(), controller->drawer->getScale());
-
+void MainWindow::draw_example(QPainter *p) {
   Point start;
   start.x = 400;
   start.y = 100;
   Point end;
   end.x = 400;
   end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
+  controller->drawer->drawLine(p, start, end);
 
   start.x = 400;
   start.y = 100;
   end.x = 600;
   end.y = 100;
-  controller->drawer->drawLine(&painter, start, end);
+  controller->drawer->drawLine(p, start, end);
 
   start.x = 600;
   start.y = 100;
   end.x = 600;
   end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
+  controller->drawer->drawLine(p, start, end);
 
   start.x = 600;
   start.y = 400;
   end.x = 400;
   end.y = 400;
-  controller->drawer->drawLine(&painter, start, end);
+  controller->drawer->drawLine(p, start, end);
+}
+
+void MainWindow::paintEvent(QPaintEvent *event) {
+  Q_UNUSED(event);
+  QPainter painter(this);
+  painter.scale(controller->drawer->getScale(), controller->drawer->getScale());
+  draw_example(&painter);
   painter.end();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
   if (event->button() == Qt::MouseButton::LeftButton) {
     qDebug() << "mouse pos - " << event->pos().x() << "  " << event->pos().y();
-    this->pressed = true;
-    this->prev_pos = event->pos();
+    pressed = true;
+    prev_pos = event->pos();
   }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-  if (this->pressed) {
-    auto shift = event->pos() - this->prev_pos;
+  if (pressed) {
+    auto shift = event->pos() - prev_pos;
     controller->viewMoveBy(shift);
-    this->prev_pos = event->pos();
+    prev_pos = event->pos();
     update();
   }
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
-  if (event->button() == Qt::MouseButton::LeftButton)
-    this->pressed = false;
+  if (event->button() == Qt::MouseButton::LeftButton) {
+    pressed = false;
+  }
 }
 
 void MainWindow::mouseDoubleClickEvent(QMouseEvent *event) {
@@ -217,7 +217,7 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event) {
 
 void MainWindow::wheelEvent(QWheelEvent *event) {
   qreal scale = controller->drawer->getScale();
-  scale += event->angleDelta().y() > 0 ? 0.005 : -0.005;
+  scale += event->angleDelta().y() > 0 ? SCALECOEFFICIENT : -SCALECOEFFICIENT;
   controller->drawer->setScale(scale);
   update();
 }

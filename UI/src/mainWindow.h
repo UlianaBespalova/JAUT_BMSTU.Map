@@ -14,6 +14,8 @@
 
 #include "mapController.h"
 
+#define SCALECOEFFICIENT 0.005
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -24,23 +26,25 @@ class MainWindow : public QWidget {
   Q_OBJECT
 
 public:
-  MainWindow(QWidget *parent = 0);
+  MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
 private:
-  // Ui::MainWindow *ui;
-
   QListView *lvlFloor;
   QStringListModel *model;
-  QLineEdit *leFrom, *leTo, *room;
-  QPushButton *BuildButton, *FindTmTblButtom;
+  QLineEdit *leFrom;
+  QLineEdit *leTo;
+  QLineEdit *room;
+  QPushButton *BuildButton;
+  QPushButton *FindTmTblButtom;
   QLabel *timeTable;
 
   MapController *controller;
 
   bool pressed = false;
   QPoint prev_pos;
-  // View::Map *mapview;
+
+  
 protected:
   void paintEvent(QPaintEvent *event) override;
 
@@ -53,5 +57,7 @@ private slots:
   void mouseReleaseEvent(QMouseEvent *event) override;
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
+
+  void draw_example(QPainter *p);
 };
 #endif // MAINWINDOW_H

@@ -4,20 +4,6 @@
 #include "mainWindow.h"
 #include "mapController.h"
 
-// class MockMainWindow : public MainWindow {
-// public:
-//   MockMainWindow(Qwidget *parent = nullptr);
-// protected:
-//   MOCK_METHOD(void, onBuildPressed, ());
-//   MOCK_METHOD(void, onLvFloorChanged, ());
-// }
-
-// TEST(MainWindow, event) {
-//     MockMainWindow window;
-//     EXPECT_CALL(window, onBuildPressed()).Times(::testing::AnyNumber());
-//     EXPECT_CALL(window, onLvFloorChanged()).Times(::testing::AnyNumber());
-// }
-
 TEST(Drawer, getScaleView) {
   Drawer drawer;
   EXPECT_NO_FATAL_FAILURE(drawer.getViewPos());

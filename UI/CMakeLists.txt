@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(UIClient)
 
-
 add_subdirectory(src)
 include_directories(src)
-
 
 find_package(QT NAMES Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
@@ -27,7 +25,6 @@ endif()
 
 enable_testing()
 
-add_executable(ui_test tests/test.cpp)
+# add_executable(ui_test tests/test.cpp)
 
-target_link_libraries(ui_test ${GTEST_LIBRARIES} UIClient)
-target_link_libraries(ui_test gmock)
+# target_link_libraries(ui_test ${GTEST_LIBRARIES} UIClient)

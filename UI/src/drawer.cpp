@@ -38,11 +38,11 @@ void Drawer::setViewPos(Point new_pos) {
 }
 
 
-qreal Drawer::getScale() {
+qreal Drawer::getScale() const {
     return scale;
 }
 
 
-Point Drawer::getViewPos() {
+Point Drawer::getViewPos() const {
     return view_pos;
 }

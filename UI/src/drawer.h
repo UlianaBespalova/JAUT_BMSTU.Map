@@ -10,12 +10,10 @@ struct Color {
 
 typedef double geometry_t;
 
-struct Vector2 {
+struct Point {
     geometry_t x;
     geometry_t y;
 };
-
-typedef Vector2 Point;
 
 class Drawer {
 private:
@@ -36,8 +34,8 @@ public:
   void setScale(qreal new_scale);
   void setColor(Color &color);
   void setViewPos(Point new_pos);
-  qreal getScale();
-  Point getViewPos();
+  qreal getScale() const;
+  Point getViewPos() const;
 
 };
 
