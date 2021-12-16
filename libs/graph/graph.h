@@ -1,37 +1,41 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <tuple>
 #include <algorithm>
-#include <sstream>
+#include <iostream>
 #include <queue>
+#include <sstream>
+#include <tuple>
+#include <vector>
 
-#include "neighbour.h"
 #include "database.h"
-
-using namespace std;
+#include "neighbour.h"
 
 class Graph {
 public:
-	void add_top(int _id);
+    Graph();
 
-	void add_edge(int id1, int id2, int time);
+    void add_top(int _id);
 
-    bool del_top(int _id);
+    void add_edge(int id_l, int id_r, int time);
 
-    bool del_edge(int id1, int id2);
+    bool del_top(int id);
 
-    bool is_neighbours(int id1, int id2);
+    bool del_edge(int id_l, int id_r);
 
-	pair<vector<int>, int> calculate_route(int location, int destination);
+    bool is_neighbours(int id_l, int id_r);
+
+    std::pair<std::vector<int>, int> calculate_route(int location,
+                                                     int destination);
 
     void save_data();
 
     void load_data();
+
 private:
-	Neighbour* get_pointer(int id);
+    Neighbour* get_pointer(int id);
 
-    void change_ptr(int id1, int id2);
+    void move_top(std::vector<std::pair<int, int>>&, int id);
 
-	vector<Neighbour> data;
+    std::vector<Neighbour> data;
+
+    Database db;
 };

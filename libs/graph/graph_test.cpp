@@ -21,7 +21,7 @@ TEST(calculate_route_test_0, Assert_0) {
 	g.add_edge(6, 3, 2);
 	g.add_edge(6, 4, 2);
 
-	pair<vector<int>, int> r = g.calculate_route(0, 6);
+	std::pair<std::vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -72,7 +72,7 @@ TEST(del_edge_test, Assert_2) {
     g.add_edge(6, 3, 2);
     g.add_edge(6, 4, 2);
 
-    pair<vector<int>, int> r = g.calculate_route(0, 6);
+    std::pair<std::vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -109,7 +109,7 @@ TEST(del_top_test, Assert_3) {
 
     g.add_edge(8, 5, 1);
 
-    pair<vector<int>, int> r = g.calculate_route(0, 6);
+    std::pair<std::vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -152,25 +152,19 @@ TEST(load_data_test, Assert_5) {
     Graph g;
     g.load_data();
 
-    pair<vector<int>, int> r = g.calculate_route(0, 6);
+    std::pair<std::vector<int>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 }
 
-TEST(insert_json_test, Assert_6) {
-    string s = "{\"query\": \"Victor Ivan\", \"count\": 7}";
-    s = "{\n  \"floors\": [\n    {\n      \"floor\": 5,\n      \"rooms\": [\n        {\n          \"type\": 2,\n          \"walls\": [\n            { \"start\": [100, 100], \"end\": [100, 250] },\n            { \"start\": [100, 250], \"end\": [700, 250] },\n            { \"start\": [700, 250], \"end\": [700, 100] },\n            { \"start\": [700, 100], \"end\": [100, 100] }\n          ],\n          \"properties\": {\n            \"description\": \"Main hallway\"\n          }\n        },\n        {\n          \"type\": 1,\n          \"walls\": [\n            { \"start\": [100, 250], \"end\": [100, 350] },\n            { \"start\": [100, 350], \"end\": [200, 350] },\n            { \"start\": [200, 350], \"end\": [200, 250] },\n            { \"start\": [200, 250], \"end\": [175, 250] },\n            { \"start\": [175, 250], \"end\": [125, 250], \"type\": 2 },\n            { \"start\": [125, 250], \"end\": [100, 250] }\n          ],\n          \"properties\": {\n            \"description\": \"W\/C\",\n            \"gender\": \"F\"\n          }\n        }\n      ]\n    }\n  ]\n}";
-    cout << s << endl;
+TEST(insert_and_read_json_test, Assert_6) {
+    std::string insert_string = "{\"count\": 7, \"query\": \"Victor Ivan\"}";
 
-    Database db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
-    db.insert_json(s);
+    Database json_db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
+    json_db.insert_json(insert_string);
+    std::string read_string = json_db.read_json();
 
-}
-
-TEST(read_json_test, Assert_7) {
-    string s;
-    Database db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
-    s = db.read_json();
+    EXPECT_EQ(insert_string, read_string);
 }
 
 int main(int argc, char **argv) {

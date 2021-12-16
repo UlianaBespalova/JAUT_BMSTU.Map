@@ -9,6 +9,9 @@ set(LIB_HEADERS_DIR include/${LIB_NAME})
 
 include_directories(${PROJECT_SOURCE_DIR}libs)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/graph/config.txt
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
 add_library(graph STATIC ${PROJECT_SOURCE_DIR}/graph/graph.cpp)
 add_library(database STATIC ${PROJECT_SOURCE_DIR}/graph/database.cpp)
 

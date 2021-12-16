@@ -1,45 +1,49 @@
 #pragma once
+#include <fstream>
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <tuple>
 #include <pqxx/pqxx>
+#include <sstream>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "neighbour.h"
 
-using namespace std;
-using namespace pqxx;
+const std::string JSON_TABLE_NAME = "json_table";
+const std::string JSON_TABLE_FORMAT = "doc jsonb PRIMARY KEY NOT NULL";
 
-const string JSON_TABLE_NAME = "json_table";
-const string JSON_TABLE_FORMAT = "doc jsonb NOT NULL";
+const std::string GRAPH_TABLE_NAME = "testdb";
+const std::string GRAPH_TABLE_FORMAT =
+        "id integer PRIMARY KEY, neighbours integer[][]";
 
 class Database {
 public:
     Database();
 
-    Database(const string& t_name, const string& t_format);
+    Database(const std::string& t_name, const std::string& t_format);
 
     ~Database();
 
     void create_table();
 
-    void insert_table(const string& values);
+    void insert_table(const std::string& values);
 
-    void read_table(vector<Neighbour>& data);
+    void read_table(std::vector<Neighbour>& data);
 
-    string read_json();
+    std::string read_json();
 
-    void insert_json(const string& json_str);
+    void insert_json(const std::string& json_str);
+
 private:
+    void get_config();
 
-    string dbname = "ruslan16";
-    string user = "ruslan16";
-    string password = "ruslan16";
-    string host_address = "127.0.0.1";
-    string port = "5432";
-    string table_name = "testdb";
-    string table_format = "id integer PRIMARY KEY, neighbours integer[][]";
+    std::string dbname;
+    std::string user;
+    std::string password;
+    std::string host_address;
+    std::string port;
+    std::string table_name;
+    std::string table_format;
 
-    connection Connection;
+    pqxx::connection Connection;
 };

@@ -1,109 +1,122 @@
 #include "database.h"
 
 Database::Database() {
-    stringstream ss;
-    ss << "dbname = " << dbname << " user = " << user << " password = "
-       << password << " hostaddr = " << host_address << " port = " << port;
+    get_config();
+    std::string comand = "dbname = " + dbname + " user = " + user +
+                         " password = " + password +
+                         " hostaddr = " + host_address + " port = " + port;
 
-    cout << ss.str() << endl;
-
-    connection Connection(ss.str().c_str());
+    pqxx::connection Connection(comand.c_str());
 
     create_table();
 }
 
-Database::~Database() {
-    Connection.disconnect();
-}
+Database::~Database() { Connection.disconnect(); }
 
-Database::Database(const string& t_name, const string& t_format) : table_name(t_name), table_format(t_format) {
-    stringstream ss;
-    ss << "dbname = " << dbname << " user = " << user << " password = "
-       << password << " hostaddr = " << host_address << " port = " << port;
+Database::Database(const std::string &t_name, const std::string &t_format)
+        : table_name(t_name), table_format(t_format) {
+    get_config();
+    std::string comand = "dbname = " + dbname + " user = " + user +
+                         " password = " + password +
+                         " hostaddr = " + host_address + " port = " + port;
 
-    cout << ss.str() << endl;
-
-    connection Connection(ss.str().c_str());
+    pqxx::connection Connection(comand.c_str());
 
     create_table();
 }
 
 void Database::create_table() {
-    stringstream ss;
-    ss << "CREATE TABLE IF NOT EXISTS " << table_name << "(" << table_format << ");";
+    std::string comand =
+            "CREATE TABLE IF NOT EXISTS " + table_name + "(" + table_format + ");";
 
-    work W(Connection);
-    W.exec(ss.str().c_str());
+    pqxx::work W(Connection);
+    W.exec(comand.c_str());
     W.commit();
 }
 
-void Database::insert_table(const string& values) {
-    stringstream ss;
-    ss << "INSERT INTO " << table_name << "(ID, neighbours) VALUES (" << values << ") "
-        << "ON CONFLICT (ID) DO UPDATE SET " << "neighbours=EXCLUDED.neighbours" << ";";
+void Database::insert_table(const std::string &values) {
+    std::string comand = "INSERT INTO " + table_name +
+                         "(ID, neighbours) VALUES (" + values + ") " +
+                         "ON CONFLICT (ID) DO UPDATE SET " +
+                         "neighbours=EXCLUDED.neighbours;";
 
-    work W(Connection);
-    W.exec(ss.str().c_str());
+    pqxx::work W(Connection);
+    W.exec(comand.c_str());
     W.commit();
 }
 
-void Database::read_table(vector<Neighbour>& data) {
-    stringstream ss;
-    ss << "SELECT * from " << table_name;
+void Database::read_table(std::vector<Neighbour> &data) {
+    std::string comand = "SELECT * from " + table_name;
 
-    work N(Connection);
-    result R(N.exec(ss.str().c_str()));
+    pqxx::work N(Connection);
+    pqxx::result R(N.exec(comand.c_str()));
 
-    cout << "Rows num:" << R.size() << endl;
     data.reserve(R.size());
 
-    for (auto const &row: R) {
-
+    for (auto const &row : R) {
         Neighbour buffer;
-        cout << "ID: " << row[0].as<int>() << endl;
         buffer.id = row[0].as<int>();
 
         auto arr = row[1].as_array();
-        pair<pqxx::array_parser::juncture, string> elem;
+        std::pair<pqxx::array_parser::juncture, std::string> elem;
         elem = arr.get_next();
 
-        while (elem.first != pqxx::array_parser::juncture::null_value && elem.first != pqxx::array_parser::juncture::done) {
-
-            int neighbour, duration;
-
+        while (elem.first != pqxx::array_parser::juncture::null_value &&
+               elem.first != pqxx::array_parser::juncture::done) {
             if (elem.first == pqxx::array_parser::juncture::string_value) {
-                neighbour = stoi(elem.second);
+                int neighbour = std::stoi(elem.second);
                 elem = arr.get_next();
                 if (elem.first == pqxx::array_parser::juncture::string_value) {
-                    duration = stoi(elem.second);
-                    cout << neighbour << " " << duration << endl;
-                    buffer.edge.push_back(make_pair(neighbour, duration));
+                    int duration = std::stoi(elem.second);
+                    buffer.edge.push_back(std::make_pair(neighbour, duration));
                 }
-            } else {
-                elem = arr.get_next();
             }
+            elem = arr.get_next();
         }
         data.push_back(buffer);
     }
 }
 
+void Database::insert_json(const std::string &json_str) {
+    std::string comand = "INSERT INTO " + table_name + "(doc) VALUES ('" +
+                         json_str + "') " + "ON CONFLICT (doc) DO UPDATE SET " +
+                         "doc=EXCLUDED.doc;";
 
-void Database::insert_json(const string& json_str) {
-    stringstream ss;
-    ss << "INSERT INTO " << table_name << "(doc) VALUES ('" << json_str << "') "
-       << "ON CONFLICT DO NOTHING;";
-
-    work W(Connection);
-    W.exec(ss.str().c_str());
+    pqxx::work W(Connection);
+    W.exec(comand.c_str());
     W.commit();
 }
 
-string Database::read_json() {
-    stringstream ss;
-    ss << "SELECT * from " << table_name;
+std::string Database::read_json() {
+    std::string comand = "SELECT * from " + table_name;
 
-    work N(Connection);
-    result R(N.exec(ss.str().c_str()));
+    pqxx::work N(Connection);
+    pqxx::result R(N.exec(comand.c_str()));
 
     return R[0][0].c_str();
+}
+
+void Database::get_config() {
+    std::ifstream config_file("config.txt");
+
+    if (!config_file.is_open()) {
+        std::cout << "ERROR" << std::endl;
+        return;
+    }
+
+    std::string buffer;
+
+    std::getline(config_file, buffer, '=');
+    std::getline(config_file, dbname, '\n');
+    std::getline(config_file, buffer, '=');
+    std::getline(config_file, user, '\n');
+    std::getline(config_file, buffer, '=');
+    std::getline(config_file, password, '\n');
+    std::getline(config_file, buffer, '=');
+    std::getline(config_file, host_address, '\n');
+    std::getline(config_file, buffer, '=');
+    std::getline(config_file, port, '\n');
+
+    config_file.close();
+    return;
 }

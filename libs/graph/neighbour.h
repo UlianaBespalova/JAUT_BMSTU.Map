@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include <vector>
 #include <tuple>
+#include <vector>
 
 struct Neighbour {
     int id;
