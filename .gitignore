@@ -57,3 +57,4 @@ Makefile
 cmake_install.cmake
 Testing
 .idea
+cmake-build-debug

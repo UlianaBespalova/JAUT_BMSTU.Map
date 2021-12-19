@@ -1,41 +1,86 @@
 //
 // Created by UlianaBespalova on 10.11.2021.
 //
+
 #include <boost/lexical_cast.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <boost/system/error_code.hpp>
 #include <iostream>
 #include <utility>
 
 #include "httpClient.h"
 
+namespace exception = boost::exception_detail;
+namespace ptree = boost::property_tree;
 
-std::string getToken() {
-    return "bb-at-1rrz8bvnkc5xb7lsx3ga4wpscn73qkfzc5h6ftr32s134";
+using boostSystemErr = boost::system::system_error;
+
+Response BaseClient::getConnection(unsigned short port,
+                                   const std::string& target, Params* params,
+                                   Params* headers) {
+    bool connected = connect(port);
+    if (!connected) {
+        return {};
+    }
+    std::string url = target;
+    if (params && !params->empty()) {
+        url = getUrl(target, params);
+    }
+    requestGet(url, headers);
+    return getResponse();
 }
 
+std::string BaseClient::getUrl(const std::string& target, Params* params) {
+    if (!params) return target;
+    std::string url = target + "?";
+    auto iter = params->begin();
+    for (; iter != params->end(); iter++) {
+        url += iter->first + "=" + iter->second + "&";
+    }
+    url.pop_back();
+    return url;
+}
 
+ResponseStruct BaseClient::parseResponse(Response response) {
+    ResponseStruct res = ResponseStruct();
+    res.status = response.result_int();
+    std::string str;
+    for (auto seq : response.body().data()) {
+        auto* cbuf = asio::buffer_cast<const char*>(seq);
+        str.append(cbuf, asio::buffer_size(seq));
+    }
+    res.body = str;
+    return res;
+}
 
-
-HttpClient::HttpClient() : socket(context), resolver(context) { }
+HttpClient::HttpClient() : socket(context), resolver(context) {}
 
 bool HttpClient::connect(unsigned short port = 80) {
-    auto const results = resolver
-            .resolve(HttpClient::address, std::to_string(port));
+    auto const results =
+            resolver.resolve(HttpClient::address_ip, std::to_string(port));
     try {
         asio::connect(socket, results.begin(), results.end());
         return true;
-    } catch (const boost::exception_detail::clone_impl<boost::exception_detail::
-    error_info_injector<boost::system::system_error> > &error) {
+    } catch (const exception::clone_impl<
+            exception::error_info_injector<boostSystemErr> >& error) {
         std::cout << error.what() << std::endl;
         return false;
     }
 }
 
-void HttpClient::requestGet(const std::string& target) {
+void HttpClient::requestGet(const std::string& target, Params* headers) {
     const int version = 11;
     Request request{beast::http::verb::get, target, version};
-    request.set(beast::http::field::host, HttpClient::address);
+    request.set(beast::http::field::host, HttpClient::address_ip);
     request.set(beast::http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+
+    if (headers && !headers->empty()) {
+        auto iter = headers->begin();
+        for (; iter != headers->end(); iter++) {
+            request.set(iter->first, iter->second);
+        }
+    }
     beast::http::write(socket, request);
 }
 
@@ -44,135 +89,110 @@ Response HttpClient::getResponse() {
     beast::http::read(socket, buffer, result);
     boost::system::error_code ec;
     socket.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-    if(ec && ec != boost::system::errc::not_connected)
+    if (ec && ec != boost::system::errc::not_connected)
         std::cout << "Connection error" << std::endl;
     return result;
 }
 
-std::string getUrl(const std::string &target, Params* params) {
-    if (params== nullptr) return target;
-    std::string url = target+"?";
-    auto iter = (*params).begin();
-    for (; iter != (*params).end(); iter++) {
-        url += iter->first + "=" + iter->second + "&";
-    }
-    url.pop_back();
-    return url;
+Response HttpClient::makeGetRequest(const HostAddress& host,
+                                    const std::string& target, Params* params,
+                                    Params* headers) {
+    HttpClient::address_ip = std::move(host.ip);
+    return getConnection(host.port, target, params, headers);
 }
 
-Response HttpClient::makeGetRequest(std::string _address, unsigned short port, const std::string& target,
-                                    Params* params, std::string header) {
-    HttpClient::address = std::move(_address);
-    bool connected = connect(port);
-    if (!connected) {
-        return {};
-    }
-    if (params == nullptr || (*params).empty()) {
-        HttpClient::requestGet(target);
-    } else {
-        auto url = getUrl(target, params);
-        HttpClient::requestGet(url);
-    }
-    return getResponse();
-}
-
-ResponseStruct HttpClient::parseResponse(Response response) {
-    ResponseStruct res = ResponseStruct();
-    res.status = response.result_int();
-    std::string str;
-    for (auto seq : response.body().data()) {
-        auto* cbuf = boost::asio::buffer_cast<const char*>(seq);
-        str.append(cbuf, boost::asio::buffer_size(seq));
-    }
-    res.body = str;
-    return res;
-}
-
-
-
-HttpsClient::HttpsClient() : ctx(asio::ssl::context::method::sslv23_client), ssock(svc, ctx) { }
+HttpsClient::HttpsClient()
+        : ctx(asio::ssl::context::method::sslv23_client), socket(svc, ctx) {}
 
 bool HttpsClient::connect(unsigned short port = 443) {
     try {
-        ssock.lowest_layer().connect({ {asio::ip::address::from_string(HttpsClient::address_ip)}, port });
-        ssock.handshake(asio::ssl::stream_base::handshake_type::client);
+        socket.lowest_layer().connect(
+                {{asio::ip::address::from_string(HttpsClient::address_ip)}, port});
+        socket.handshake(asio::ssl::stream_base::handshake_type::client);
         return true;
-    } catch (const boost::exception_detail::clone_impl<boost::exception_detail::
-    error_info_injector<boost::system::system_error> > &error) {
+    } catch (const exception::clone_impl<
+            exception::error_info_injector<boostSystemErr> >& error) {
         std::cout << error.what() << std::endl;
         return false;
     }
 }
 
-void HttpsClient::requestGet(const std::string& target) {
+void HttpsClient::requestGet(const std::string& target, Params* headers) {
     const int version = 11;
     Request request{beast::http::verb::get, target, version};
-    request.set(beast::http::field::host, HttpsClient::address_domen);
+    request.set(beast::http::field::host, HttpsClient::address_domain);
     request.set(beast::http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-    request.set("x-bb-token", getToken() );
 
-    std::cout<<"request: \n" << request << std::endl;
-
-    beast::http::write(ssock, request);
+    if (headers && !headers->empty()) {
+        auto iter = headers->begin();
+        for (; iter != headers->end(); iter++) {
+            request.set(iter->first, iter->second);
+        }
+    }
+    beast::http::write(socket, request);
 }
 
 Response HttpsClient::getResponse() {
-    std::cout << "4. ok" << std::endl;
     Response result;
-    beast::http::read(ssock, buffer, result);
+    beast::http::read(socket, buffer, result);
     boost::system::error_code ec;
 
-    ssock.lowest_layer().close();
+    socket.lowest_layer().close();
     svc.stop();
     return result;
 }
 
-Response HttpsClient::makeGetRequest(std::string _address_domen, std::string _address_ip, unsigned short port, const std::string& target,
-                                     Params* params, std::string header) {
-    HttpsClient::address_domen = std::move(_address_domen);
-    HttpsClient::address_ip = std::move(_address_ip);
+Response HttpsClient::makeGetRequest(const HostAddress& host,
+                                     const std::string& target, Params* params,
+                                     Params* headers) {
+    HttpsClient::address_domain = std::move(host.domain);
+    HttpsClient::address_ip = std::move(host.ip);
 
-    bool connected = connect(port);
+    return getConnection(host.port, target, params, headers);
+}
+
+void HttpsClient::requestPost(const std::string& target, Params* headers,
+                              Params* body) {
+    ptree::ptree root;
+    if (body && !body->empty()) {
+        auto iter = body->begin();
+        for (; iter != body->end(); iter++) {
+            root.put(iter->first, iter->second);
+        }
+    }
+    std::ostringstream buf;
+    write_json(buf, root, false);
+    std::string json = buf.str();
+
+    asio::streambuf request;
+    std::ostream request_stream(&request);
+    request_stream << "POST " << target << " HTTP/1.1 \r\n";
+    request_stream << "Host:" << HttpsClient::address_domain << "\r\n";
+    request_stream << "User-Agent: " << BOOST_BEAST_VERSION_STRING << "\r\n";
+    request_stream << "Content-Type: application/json; charset=utf-8 \r\n";
+    request_stream << "Accept: */*\r\n";
+    request_stream << "Content-Length: " << json.length() << "\r\n";
+    if (headers && !headers->empty()) {
+        auto iter = headers->begin();
+        for (; iter != headers->end(); iter++) {
+            request_stream << iter->first << ": " << iter->second << "\r\n";
+        }
+    }
+    request_stream << "Connection: close\r\n\r\n";
+    request_stream << json;
+
+    asio::write(socket, request);
+}
+
+Response HttpsClient::makePostRequest(const HostAddress& host,
+                                      const std::string& target, Params* params,
+                                      Params* headers, Params* body) {
+    HttpsClient::address_domain = std::move(host.domain);
+    HttpsClient::address_ip = std::move(host.ip);
+    bool connected = HttpsClient::connect(host.port);
     if (!connected) {
         return {};
     }
-    if (params == nullptr || (*params).empty()) {
-        HttpsClient::requestGet(target);
-    } else {
-        auto url = getUrl(target, params);
-        HttpsClient::requestGet(url);
-    }
-    return getResponse();
-}
-
-void HttpsClient::requestPost(const std::string& target) {
-
-    std::string body = "  {\"parent_uuid\":\"\",\"query\":\"\",\"type\":\"group\"}  ";
-
-    const int version = 11;
-    Request request{beast::http::verb::post, target, version};
-    request.set(beast::http::field::host, HttpsClient::address_domen);
-    request.set(beast::http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-    request.set(boost::beast::http::field::content_type, "application/json");
-
-    request.set("x-bb-token", getToken() );
-    request.set(http::field::content_length, body.length()); //??
-    request.set(http::field::body, body);
-
-    request.prepare_payload();
-    std::cout<<request << body.length() <<std::endl;
-    beast::http::write(ssock, request);
-}
-
-Response HttpsClient::makePostRequest(std::string _address_domen, std::string _address_ip,
-                                      unsigned short port, const std::string& target,
-                                      Params* params, std::string header) {
-    HttpsClient::address_domen = std::move(_address_domen);
-    HttpsClient::address_ip = std::move(_address_ip);
-    bool connected = connect(port);
-    if (!connected) {
-        return {};
-    }
-    HttpsClient::requestPost(target);
-    return getResponse();
+    HttpsClient::requestPost(target, headers, body);
+    return HttpsClient::getResponse();
 }
