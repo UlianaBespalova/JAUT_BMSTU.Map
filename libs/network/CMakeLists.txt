@@ -54,7 +54,7 @@ set(BOOST_REQUESTED_VERSION 1.68.0)
 find_package(Threads)
 target_link_libraries(${LIB_NAME} pthread)
 
-find_package(Boost COMPONENTS system asio)
+find_package(Boost REQUIRED)
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 include_directories(${Boost_INCLUDE_DIRS})
