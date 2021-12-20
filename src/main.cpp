@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     ResponseStruct resultStruct;
 
     struct { const char *address; unsigned short int port; const char *target; } servers[] = {
+            { "908e-109-69-29-254.ngrok.io", 80, "/map" },
             { "152.70.54.11", 8000, "/data" },
     };
 
