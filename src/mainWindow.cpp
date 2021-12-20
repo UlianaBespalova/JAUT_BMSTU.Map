@@ -157,7 +157,7 @@ void MainWindow::onBuildPressed() {
       for (auto &neighbour : path.first) {
           Core::Geometry::geometry_t x_sum = 0, y_sum = 0;
           unsigned int p_num = 0;
-          for (auto &wall: Core::Model::Map::getWalls(*neighbour->room)) {
+          for (auto &wall: (*neighbour->room).getWalls()) {
               x_sum += wall.start.x;
               y_sum += wall.start.y; ++p_num;
               x_sum += wall.end.x;

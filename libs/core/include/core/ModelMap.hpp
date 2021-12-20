@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "../misc/geometry.hpp"
+#include "geometry.hpp"
 
 
 namespace Core {
