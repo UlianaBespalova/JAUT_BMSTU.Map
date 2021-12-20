@@ -11,26 +11,36 @@ void View::Map::drawMap() {
     }
 }
 
-void View::Map::drawRoom(const Model::Map::Room &room) {
+const View::Color red = { 255, 0, 0 };
+const View::Color black = { 255, 0, 0 };
+const View::Color light_green = { 127, 255, 127 };
+const View::Color green = { 0, 255, 0 };
+
+const View::Color &getColor(const Model::Map::Room &room) {
+    using Type = Model::Map::Room::Type;
     switch (room.type) {
-        case Model::Map::Room::Type::Unknown:drawer->setColor({ 255, 0, 0 });
-            break;
-        case Model::Map::Room::Type::Cabinet:drawer->setColor({ 0, 0, 0 });
-            break;
-        case Model::Map::Room::Type::Corridor:drawer->setColor({ 255, 0, 0 });
-            break;
-        case Model::Map::Room::Type::Stairs:drawer->setColor({ 127, 255, 127 });
-            break;
-        case Model::Map::Room::Type::Elevator:drawer->setColor({ 0, 255, 0 });
-            break;
+        case Type::Unknown:  //
+            return red;
+        case Type::Cabinet:
+            return black;
+        case Type::Corridor:
+            return red;
+        case Type::Stairs:
+            return light_green;
+        case Type::Elevator:
+            return green;
         default:
 #ifndef NDEBUG
-            throw std::runtime_error("Unknown _color!");
+            throw std::runtime_error("Unknown type while choosing a color!");
 #endif
             break;
     }
+}
 
-    for (const auto &wall: Model::Map::getWalls(room)) {
+void View::Map::drawRoom(const Model::Map::Room &room) {
+    drawer->setColor(getColor(room));
+
+    for (const auto &wall : room.getWalls()) {
         drawWall(wall);
     }
 }

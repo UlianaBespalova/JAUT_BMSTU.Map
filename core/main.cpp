@@ -19,8 +19,6 @@ class DummyDrawer : public View::IDrawer {
 
 int main(int argc, char *argv[])
 {
-    hello();
-
     const std::string FILENAME = "../test_data.json";
 
     std::ifstream i(FILENAME);

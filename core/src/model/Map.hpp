@@ -11,15 +11,17 @@ namespace Core {
         class Map {
             public:
                 struct Wall {
-                    enum Type { Solid, Pass, Door } type = Solid;
+                    enum class Type { Solid, Pass, Door } type = Type::Solid;
                     Geometry::Point start = { }, end = { };
                 };
 
                 struct Room {
-                    enum Type { Unknown, Cabinet, Corridor, Stairs, Elevator } type = Unknown;
+                    enum class Type { Unknown, Cabinet, Corridor, Stairs, Elevator } type = Type::Unknown;
                     int floor = 0;
                     std::vector<Wall> walls = { };
                     std::unordered_map<std::string, std::string> properties;
+
+                    inline const std::vector<Wall> &getWalls() const { return walls; };
                 };
 
             protected:
@@ -33,8 +35,7 @@ namespace Core {
                 Map(const Map &) = delete;
                 Map &operator=(const Map &) = delete;
 
-                inline const std::vector<Room> &getRooms() { return rooms; };
-                inline static const std::vector<Wall> &getWalls(const Room &room) { return room.walls; };
+                inline const std::vector<Room> &getRooms() const { return rooms; }
         };
 
         void from_json(const json &j, Map::Wall &w);

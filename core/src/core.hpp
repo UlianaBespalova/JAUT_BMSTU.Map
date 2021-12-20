@@ -3,11 +3,6 @@
 
 #include "misc/utils.hpp"
 #include "model/Map.hpp"
-#include "network/NetManager.hpp"
 #include "view/Map.hpp"
-
-namespace Core {
-    void hello();
-}
 
 #endif //BMSTU_MAP_CORE_HPP

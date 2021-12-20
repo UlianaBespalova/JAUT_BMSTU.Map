@@ -86,11 +86,3 @@ TEST(MapModel, parse_full)
     EXPECT_NE(bathroom.properties.find("gender"), hallway.properties.end());
     EXPECT_EQ(bathroom.properties["gender"], "F");
 }
-
-TEST(MapModel, remote_load)
-{
-    Network::NetManager net("http://152.70.54.11:8000");
-    json j = net.map_request();
-    Model::Map model(j);
-    EXPECT_GT(model.getRooms().size(), 0);
-}

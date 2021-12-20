@@ -9,20 +9,20 @@ class DummyCanvas {
     public:
         struct Line { Geometry::Point start, end; };
 
-        std::vector<Line> _lines;
-        View::Color _color;
+        std::vector<Line> lines;
+        View::Color color;
 
     public:
-        DummyCanvas() : _color({ 0, 0, 0 }), _lines() { }
-        inline void drawLine(Line line) { _lines.push_back(line); }
-        inline void setColor(View::Color color) { _color = color; }
+        DummyCanvas() : color({ 0, 0, 0 }), lines() { }
+        inline void drawLine(Line line) { lines.push_back(line); }
+        inline void setColor(View::Color color_) { color = color_; }
 };
 
 class DummyDrawer : public View::IDrawer {
     public:
         DummyCanvas *canvas;
 
-        explicit DummyDrawer(DummyCanvas &_canvas) : View::IDrawer(), canvas(&_canvas) { }
+        explicit DummyDrawer(DummyCanvas *canvas_) : View::IDrawer(), canvas(canvas_) { }
 
         void drawLine(Geometry::Point start, Geometry::Point end) override {
             canvas->drawLine({ start, end });
@@ -58,13 +58,13 @@ TEST(MapView, drawing)
     Model::Map model(j);
 
     DummyCanvas canvas;
-    DummyDrawer drawer(canvas);
+    DummyDrawer drawer(&canvas);
     View::Map view(&model, &drawer);
     view.drawMap();
 
-    EXPECT_EQ(canvas._color.r, 0);
-    EXPECT_EQ(canvas._color.g, 0);
-    EXPECT_EQ(canvas._color.b, 0);
+    EXPECT_EQ(canvas.color.r, 0);
+    EXPECT_EQ(canvas.color.g, 0);
+    EXPECT_EQ(canvas.color.b, 0);
 
-    EXPECT_EQ(canvas._lines.size(), 10);
+    EXPECT_EQ(canvas.lines.size(), 10);
 }

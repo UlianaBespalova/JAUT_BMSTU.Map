@@ -14,7 +14,6 @@ set(LIB_HEADERS_FILES
         network/NetManager.hpp
         )
 set(LIB_SOURCE_FILES
-        core.cpp
         model/Map.cpp
         view/Map.cpp
         )
