@@ -5,9 +5,8 @@
 #define HTTPSERVERCONNECTION_H
 
 #include <boost/asio.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/beast.hpp>
-
-#include "boost/enable_shared_from_this.hpp"
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 

@@ -136,7 +136,6 @@ Response HttpsClient::getResponse() {
     Response result;
     beast::http::read(socket, buffer, result);
     boost::system::error_code ec;
-
     socket.lowest_layer().close();
     svc.stop();
     return result;

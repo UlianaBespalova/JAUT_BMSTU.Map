@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="httpServer"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="httpServer">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libhttpServer.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 httpServer"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="httpServer/fast">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libhttpServer.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 httpServer/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cacheManager">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libcacheManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 cacheManager"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cacheManager/fast">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libcacheManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 cacheManager/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bitopManager">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libbitopManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 bitopManager"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bitopManager/fast">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libbitopManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 bitopManager/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="httpServer_run">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServer_run" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 httpServer_run"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="httpServer_run/fast">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServer_run" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 httpServer_run/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mapManager">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libmapManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 mapManager"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="mapManager/fast">
+				<Option output="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/libmapManager.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../httpClient/httpClient"/>
+					<Add directory="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/../../DataBase"/>
+					<Add directory="/usr/local/lib/boost_1_68_0"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 mapManager/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpClient/httpClient/httpClient.cpp">
+			<Option target="bitopManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpClient/httpClient/httpClient.h">
+			<Option target="bitopManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServer.cpp">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServer.h">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServerConnection.cpp">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/httpServerConnection.h">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/main.cpp">
+			<Option target="httpServer_run"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/bitopManager.cpp">
+			<Option target="bitopManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/bitopManager.h">
+			<Option target="bitopManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/cacheManager.cpp">
+			<Option target="cacheManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/cacheManager.h">
+			<Option target="cacheManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/mapManager.cpp">
+			<Option target="mapManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/managers/mapManager.h">
+			<Option target="mapManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/router.cpp">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/router.h">
+			<Option target="httpServer"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/DataBase/graph/database.cpp">
+			<Option target="mapManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/DataBase/graph/database.h">
+			<Option target="mapManager"/>
+		</Unit>
+		<Unit filename="/home/ivan/AllNewAllDifferent/9_sem/Cpp/JAUT_BMSTU.Map/AppServer/httpServer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

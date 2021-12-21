@@ -2,6 +2,7 @@
 // Created by UlianaBespalova on 10.11.2021.
 //
 #include <iostream>
+
 #include "httpServerConnection.h"
 
 HttpServerConnection::HttpServerConnection(ip::tcp::socket socket, Router *router) : socket(std::move(socket)),
@@ -38,5 +39,3 @@ void HttpServerConnection::doWrite() {
 }
 
 void HttpServerConnection::onWrite() {}
-
-

@@ -4,16 +4,21 @@
 #ifndef CACHEMANAGER_H
 #define CACHEMANAGER_H
 
-#include "../serverTypes.h"
+#include "serializers.h"
+#include "serverTypes.h"
 
 class CacheManager {
 public:
-    CacheManager() = default;
+    CacheManager();
 
-    mapType getSchedule() {};
+    mapType getSchedule(){};
+    ScheduleListResponse getFacultyCache() const;
 
 private:
-    std::vector<mapType> latestSchedule;
+    const std::string facultyCachePath = "managers/cacheData/cacheFaculty";
+    ScheduleListResponse facultyCache;
+
+    ScheduleListResponse loadFacultyCache() const;
 };
 
-#endif //CACHEMANAGER_H
+#endif  // CACHEMANAGER_H

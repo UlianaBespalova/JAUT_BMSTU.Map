@@ -1,17 +1,14 @@
 //
 // Created by UlianaBespalova on 10.11.2021.
 //
-#include <iostream>
 #include <boost/make_shared.hpp>
+#include <iostream>
 
 #include "httpServer.h"
 #include "httpServerConnection.h"
 
-
-HttpServer::HttpServer(std::string& address, int port) :
-    acceptor(context, endpoint),
-    socket(context) {
-
+HttpServer::HttpServer(std::string& address, int port)
+        : acceptor(context, endpoint), socket(context) {
     std::cout << "HttpServer" << std::endl;
 
     auto m_address = ip::make_address(address);
@@ -36,11 +33,12 @@ void HttpServer::accept() {
     acceptor.async_accept(socket, [&](boost::beast::error_code err) {
         std::cout << "Accept" << std::endl;
         if (err) {
-            std::cout << "Err" << std::endl;
+            std::cout << "Accent error" << std::endl;
         }
         if (!err) {
             std::cout << "New connection" << std::endl;
-            boost::make_shared<HttpServerConnection>(std::move(socket), &router)->start();
+            boost::make_shared<HttpServerConnection>(std::move(socket), &router)
+                    ->start();
         }
         accept();
     });
@@ -51,8 +49,3 @@ void HttpServer::run() {
     accept();
     context.run();
 }
-
-
-
-
-

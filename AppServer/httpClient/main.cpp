@@ -12,9 +12,9 @@ int main() {
     const unsigned short portExample = 8000;
     const std::string targetExample = "/data";
 
-    auto *client = new HttpClient();
+    auto *client = new HttpsClient();
 
-    //    Get-запрос без параметров
+    //  Пример использования: Get-запрос без параметров
     Response result = client->makeGetRequest(
             HostAddress(domainExample, ipExample, portExample), targetExample);
 
@@ -25,4 +25,3 @@ int main() {
     delete client;
     return 0;
 }
-

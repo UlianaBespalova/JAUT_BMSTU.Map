@@ -4,18 +4,19 @@
 #ifndef MAPMANAGER_H
 #define MAPMANAGER_H
 
-#include "../serverTypes.h"
+#include "graph/database.h"
 #include "serializers.h"
-
-
-typedef std::map<std::string, std::string> Params;
+#include "serverTypes.h"
 
 class MapManager {
 public:
     MapManager() = default;
 
-    ResponseString getMap();
-    ResponseString getFloor(Request);
+    ResponseString getMap() const;
+private:
+    const std::string jsonTableName = "map_table";
+    const std::string jsonTableFormat = "doc jsonb PRIMARY KEY NOT NULL";
+    Database *database = new Database(jsonTableName, jsonTableFormat);
 };
 
-#endif //MAPMANAGER_H
+#endif  // MAPMANAGER_H
