@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 
     printf("Done: %lu rooms\n", model.getRooms().size());
 
-
     printf("Creating Drawer... ");
     DummyDrawer drawer;
     printf("Done\nCreating View::Map... ");
