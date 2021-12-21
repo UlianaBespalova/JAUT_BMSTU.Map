@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "core/database.h"
 #include "core/core.hpp"
 
 
@@ -89,4 +90,16 @@ TEST(MapModel, parse_full)
 
     EXPECT_FALSE(bathroom.properties.find("gender") == hallway.properties.end());
     EXPECT_EQ(bathroom.properties["gender"], "F");
+}
+
+TEST(insert_and_read_json_test, json_test) {
+    auto j = R"(
+        {"floors":[{"floor":8,"rooms":[{"type":2,"walls":[{"start":[557,510],"end":[557,733]},{"start":[2981,510],"end":[557,510]},{"start":[2981,733],"end":[2981,510]},{"start":[557,733],"end":[2981,733]}]}]}]}
+    )"_json;
+
+    Database json_db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
+    json_db.insert_json(j.dump());
+    auto read_json = json::parse(json_db.read_json());
+
+    EXPECT_EQ(j, read_json);
 }

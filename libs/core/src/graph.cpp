@@ -1,69 +1,150 @@
 #include "graph.h"
 
-using namespace std;
+Graph::Graph() : db(GRAPH_TABLE_NAME, GRAPH_TABLE_FORMAT) {}
 
-void Graph::add_top(int _id, Model::Map::Room *r) {
-    if (get_pointer(_id) == nullptr){
-        data.push_back({ _id, {}, r });
+void Graph::add_top(int id) {
+    if (get_pointer(id) == nullptr) {
+        data.push_back({id, {}});
     }
 }
 
-void Graph::add_edge(int id1, int id2, int time) {
-	Neighbour* ptr1 = get_pointer(id1);
-	Neighbour* ptr2 = get_pointer(id2);
-	if (ptr1 != nullptr && ptr2 != nullptr) {
-		ptr1->edge.emplace_back( ptr2, time );
-		ptr2->edge.emplace_back( ptr1, time );
-	}
+void Graph::add_edge(int id_l, int id_r, int time) {
+    if (is_neighbours(id_l, id_r)) {
+        return;
+    }
+    Neighbour* l = get_pointer(id_l);
+    Neighbour* r = get_pointer(id_r);
+    if (l != nullptr && r != nullptr && id_l != id_r) {
+        l->edge.push_back({r->id, time});
+        r->edge.push_back({l->id, time});
+    }
 }
 
-Graph::Neighbour* Graph::get_pointer(int id) {
-	for (auto& it : data) {
-		if (it.id == id) {
-			return &it;
-		}
-	}
-	return nullptr;
+Neighbour* Graph::get_pointer(int id) {
+    auto is_equal_id{[&id](Neighbour n) { return id == n.id; }};
+
+    std::vector<Neighbour>::iterator it =
+            std::find_if(data.begin(), data.end(), is_equal_id);
+    if (it != data.end()) {
+        return &(*it);
+    }
+
+    return nullptr;
 }
 
-pair<vector<Graph::Neighbour*>, int> Graph::calculate_route(int _location, int _destination) {
+bool Graph::is_neighbours(int id_l, int id_r) {
+    Neighbour* l = get_pointer(id_l);
 
-	Neighbour* location = get_pointer(_location);
-	Neighbour* destination = get_pointer(_destination);
+    auto is_needed_id{[&id_r](std::pair<int, int> n) { return id_r == n.first; }};
 
+    auto iter = std::find_if(l->edge.begin(), l->edge.end(), is_needed_id);
+    if (iter != l->edge.end()) {
+        return true;
+    }
 
-	queue<pair<vector<Neighbour*>, int>> route;
-	route.push({ {location}, 0 });
+    return false;
+}
 
-	pair<vector<Neighbour*>, int> result;
-	bool route_found = false;
+void Graph::move_top(std::vector<std::pair<int, int>>& vec_edge, int id) {
+    for (auto& it : vec_edge) {
+        if (it.first == id) {
+            std::swap(it, vec_edge.back());
+            vec_edge.pop_back();
+            break;
+        }
+    }
+    return;
+}
 
-	while (!route.empty()) {
-		pair<vector<Neighbour*>, int> buffer = route.front();
-		route.pop();
+bool Graph::del_edge(int id_l, int id_r) {
+    if (!is_neighbours(id_l, id_r)) {
+        return false;
+    }
 
-		if (route_found && result.second < buffer.second) {
-			continue;
-		}
+    Neighbour* l = get_pointer(id_l);
+    Neighbour* r = get_pointer(id_r);
 
-		for (const auto& it : buffer.first.back()->edge) {
-			pair<vector<Neighbour*>, int> buf = buffer;
-			if (find(buf.first.begin(), buf.first.end(), it.first) == buf.first.end()) {
-				buf.first.push_back(it.first);
-				buf.second += it.second;
-				route.push(buf);
+    move_top(l->edge, id_r);
+    move_top(r->edge, id_l);
 
-				if (it.first == destination && !route_found) {
-					result = buf;
-					route_found = true;
-				}
+    return true;
+}
 
-				if (it.first == destination && route_found && buf.second < result.second) {
-					result = buf;
-				}
-			}
-		}
+bool Graph::del_top(int id) {
+    Neighbour* ptr = get_pointer(id);
+    if (!ptr) {
+        return false;
+    }
 
-	}
-	return result;
+    for (auto& it : ptr->edge) {
+        Neighbour* neighbour = get_pointer(it.first);
+        move_top(neighbour->edge, id);
+    }
+
+    if (ptr != &data.back()) {
+        std::swap(*ptr, data.back());
+    }
+    data.pop_back();
+
+    return true;
+}
+
+std::pair<std::vector<int>, int> Graph::calculate_route(int location,
+                                                        int destination) {
+    std::queue<std::pair<std::vector<int>, int>> route;
+    route.push({{location}, 0});
+
+    std::pair<std::vector<int>, int> result;
+    bool route_found = false;
+
+    while (!route.empty()) {
+        std::pair<std::vector<int>, int> buffer = route.front();
+        route.pop();
+
+        if (route_found && result.second < buffer.second) {
+            continue;
+        }
+
+        for (const auto& it : get_pointer(buffer.first.back())->edge) {
+            std::pair<std::vector<int>, int> buf = buffer;
+            if (std::find(buf.first.begin(), buf.first.end(), it.first) ==
+                buf.first.end()) {
+                buf.first.push_back(it.first);
+                buf.second += it.second;
+                route.push(buf);
+
+                if (it.first == destination && !route_found) {
+                    result = buf;
+                    route_found = true;
+                }
+
+                if (it.first == destination && route_found &&
+                    buf.second < result.second) {
+                    result = buf;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+void Graph::load_data() {
+    db.read_table(data);
+    return;
+}
+
+void Graph::save_data() {
+    for (const auto& it : data) {
+        std::stringstream ss;
+        ss << it.id << ", ARRAY[";
+        for (const auto& it_ : it.edge) {
+            ss << "[" << it_.first << ", " << it_.second << "]";
+            if (it_ != it.edge.back()) {
+                ss << ", ";
+            }
+        }
+        ss << "]::integer[][]";
+        db.insert_table(ss.str());
+    }
+    return;
 }
