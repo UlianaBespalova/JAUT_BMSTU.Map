@@ -11,6 +11,7 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QWidget>
+#include <QPixmap>
 
 #include "mapController.h"
 
@@ -58,6 +59,6 @@ private slots:
   void mouseDoubleClickEvent(QMouseEvent *event) override;
   void wheelEvent(QWheelEvent *event) override;
 
-  void draw_example(QPainter *p);
+  void draw_example();
 };
 #endif // MAINWINDOW_H

@@ -23,20 +23,21 @@ private:
   QPoint *matrix;
 
   QPen pen;
-
   QPoint rePoint(Point &point);
 
 public:
   Drawer();
   ~Drawer();
-  void drawLine(QPainter *painter, Point start, Point end);
+  void drawLine(Point start, Point end);
   void setFloor(int new_floor);
   void setScale(qreal new_scale);
   void setColor(Color &color);
   void setViewPos(Point new_pos);
+  void drawText(std::string text, Point start);
   qreal getScale() const;
   Point getViewPos() const;
 
+  QPainter *painter;
 };
 
 #endif // DRAWER_H

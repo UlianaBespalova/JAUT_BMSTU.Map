@@ -23,8 +23,11 @@ void Drawer::setScale(qreal new_scale) {
     this->scale = new_scale;
 }
 
-void Drawer::drawLine(QPainter *painter, Point start, Point end) {
+void Drawer::drawLine(Point start, Point end) {
+    pen.setWidth(5);
     painter->setPen(pen);
+    QBrush brush;
+    painter->setBrush(brush);
     painter->drawLine(rePoint(start), rePoint(end));
 }
 
@@ -35,6 +38,11 @@ void Drawer::setColor(Color &color) {
 void Drawer::setViewPos(Point new_pos) {
     view_pos.x = new_pos.x;
     view_pos.y = new_pos.y;
+}
+
+void Drawer::drawText(std::string text, Point start) {
+    painter->setPen(pen);
+    painter->drawText(rePoint(start), QString::fromStdString(text));
 }
 
 
