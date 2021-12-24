@@ -10,7 +10,6 @@ MapController::~MapController() {
 
 bool MapController::setFloor(int newfloor) {
     drawer->setFloor(newfloor);
-    qDebug() << "Lvl changed ";
     return true;
 }
 

@@ -12,6 +12,8 @@
 #include <QWheelEvent>
 #include <QWidget>
 #include <QPixmap>
+#include <QFont>
+#include <QFrame>
 
 #include "mapController.h"
 

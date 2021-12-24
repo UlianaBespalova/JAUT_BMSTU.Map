@@ -2,56 +2,42 @@
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   controller = new MapController();
-
-  setWindowTitle("BMSTUMap");
-
+  controller = new MapController();
+  this->setWindowIcon(QIcon("../image/map.png"));
+  this->setWindowTitle("BMSTUMap");
   this->setStyleSheet("QWidget { "
-                      "background-color: #d0cfcf ; "
+                      "background-color: white ; "
                       "}");
-  this->resize(800, 600);
-  size_t height = this->size().height();
-
-  QVBoxLayout *vbox = new QVBoxLayout(this);
-  QHBoxLayout *hbox = new QHBoxLayout();
-
   leTo = new QLineEdit();
   leFrom = new QLineEdit();
-  leTo->setFixedWidth(60);
-  leTo->setPlaceholderText("Ввод...");
-  leFrom->setPlaceholderText("Ввод...");
-  leFrom->setFixedWidth(60);
-  leFrom->setFixedHeight(20);
-  leTo->setFixedHeight(20);
+  leTo->setFixedWidth(100);
+  leFrom->setFixedWidth(100);
+  leFrom->setFixedHeight(35);
+  leTo->setFixedHeight(35);
   leFrom->setStyleSheet("QLineEdit { "
-                        "border: 0.3px solid black; "
-                        "border-radius: 0.1px; "
+                        "border: 1px solid black; "
+                        "border-radius: 3px; "
                         "background-color: white; "
-                        "font: 10.5pt 'Helvetica';"
+                        "font: 13pt 'Nocturno BG';"
                         "}");
   leTo->setStyleSheet("QLineEdit { "
-                      "border: 0.3px solid black; "
-                      "border-radius: 0.1px; "
+                      "border: 1px solid black; "
+                      "border-radius: 3px; "
                       "background-color: white; "
-                      "font: 10.5pt 'Helvetica';"
+                      "font: 13pt 'Nocturno BG';"
                       "}");
 
-  QPixmap pix("../media/search.png");
-  QIcon icon(pix);
   BuildButton = new QPushButton();
-  BuildButton->setFixedSize(QSize(24, 20));
-  BuildButton->setIcon(icon);
-
+  BuildButton->setFixedSize(QSize(205, 35));
+  BuildButton->setText("Построить путь");
   BuildButton->setStyleSheet("QPushButton { "
-                             "border: 0.3px solid black; "
-                             "border-radius: 0.1px; "
-                             "background-color: white; "
+                             "border: 1px solid black; "
+                             "border-radius: 3px; "
+                             "font-size: 14pt;"
+                             "font-family: 'Nocturno BG'; "
+                             "background-color: #3f5eab; "
+                             "color: white; "
                              "}");
-
-  hbox->setSpacing(0);
-  hbox->addWidget(leTo);
-  hbox->addWidget(leFrom);
-  hbox->addWidget(BuildButton);
-  hbox->addStretch(1);
 
   model = new QStringListModel();
   QStringList list;
@@ -60,26 +46,33 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     str = QString("%1 этаж").arg(i);
     list << str;
   }
-
   model->setStringList(list);
 
-  lvlFloor = new QListView(this);
+  lvlFloor = new QListView();
   lvlFloor->setModel(model);
   lvlFloor->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  lvlFloor->setFixedHeight(list.size() * 22);
-  lvlFloor->setFixedWidth(145);
-
+  lvlFloor->setFixedHeight(list.size() * 32);
+  lvlFloor->setFixedWidth(205);
   lvlFloor->setStyleSheet("QListView { "
                           "background-color: white; "
-                          "border: 0.3px solid black; "
-                          "border-radius: 0.1px; "
-                          "font: 10.5pt 'Helvetica';"
-                          "border-top-width: 1px; "
-                          "border-bottom-width: 2px; "
-                          "};"
+                          "border: 2px; "
+                          "border-radius: 0px; "
+                          "font: 13pt 'Nocturno BG'; "
+                          "background: #f1f1f1"
+                          "}"
+
+                          "QListView::item {"
+                          "border: 1.2px solid black; "
+                          "border-radius: 3px; "
+                          "margin-top: 4px; "
+                          "text-align: right; "
+                          "padding-top: 4px; "
+                          "padding-left: 63px; "
+                          "}"
+
                           "QListView::item:selected {"
-                          "border: 0.1px;"
-                          "};");
+                          "background: #2b76b4;"
+                          "}");
 
   connect(lvlFloor->selectionModel(),
           SIGNAL(currentChanged(const QModelIndex, const QModelIndex)), this,
@@ -87,57 +80,109 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 
   connect(BuildButton, SIGNAL(pressed()), this, SLOT(onBuildPressed()));
 
-  QHBoxLayout *hbox2 = new QHBoxLayout();
+  QLabel *lblFrom = new QLabel();
+  lblFrom->setText("Откуда");
+  lblFrom->setFixedSize(QSize(100, 20));
+  lblFrom->setStyleSheet("QLabel { "
+                         "background-color: white; "
+                         "border: 0px; "
+                         "border-radius: 0px; "
+                         "font: 13pt 'Nocturno BG';"
+                         "background: #f1f1f1;"
+                         "};");
+
+  QLabel *lblTo = new QLabel();
+  lblTo->setText("Куда");
+  lblTo->setFixedSize(QSize(100, 20));
+  lblTo->setStyleSheet("QLabel { "
+                       "background-color: white; "
+                       "border: 0px; "
+                       "border-radius: 0px; "
+                       "font: 13pt 'Nocturno BG';"
+                       "background: #f1f1f1;"
+                       "};");
 
   room = new QLineEdit(this);
-  room->setPlaceholderText("Ввод...");
-  room->setFixedWidth(120);
-  room->setFixedHeight(20);
+  room->setFixedWidth(205);
+  room->setFixedHeight(35);
   room->setStyleSheet("QLineEdit { "
-                      "border: 0.3px solid black; "
-                      "border-radius: 0.1px; "
+                      "border: 1px solid black; "
+                      "border-radius: 3px; "
                       "background-color: white; "
-                      "font: 10.5pt 'Helvetica';"
+                      "font: 13pt 'Nocturno BG';"
                       "}");
 
   FindTmTblButtom = new QPushButton(this);
-  FindTmTblButtom->setFixedSize(QSize(24, 20));
-  FindTmTblButtom->setIcon(icon);
+  FindTmTblButtom->setFixedSize(QSize(205, 35));
+  FindTmTblButtom->setText("Найти расписание");
   FindTmTblButtom->setStyleSheet("QPushButton { "
-                                 "image: url(/media/search.png);"
-                                 "border: 0.3px solid black; "
-                                 "border-radius: 0.1px; "
-                                 "background-color: white; "
-                                 "font: 10.5pt 'Helvetica';"
+                                 "border: 1px solid black; "
+                                 "border-radius: 3px; "
+                                 "background-color: #3f5eab; "
+                                 "color: white; "
+                                 "font: 13pt 'Nocturno BG';"
                                  "}");
-
-  hbox2->setSpacing(0);
-  hbox2->addWidget(room);
-  hbox2->addWidget(FindTmTblButtom, 1, Qt::AlignLeft);
+  QLabel *lblTmtbl = new QLabel();
+  lblTmtbl->setText("Расписание");
+  lblTmtbl->setFixedSize(QSize(200, 20));
+  lblTmtbl->setStyleSheet("QLabel { "
+                          "background-color: white; "
+                          "border: 0px; "
+                          "border-radius: 0px; "
+                          "font: 13pt 'Nocturno BG';"
+                          "background: #f1f1f1;"
+                          "};");
 
   timeTable = new QLabel();
-  timeTable->setFixedHeight(140);
-  timeTable->setFixedWidth(145);
+  int size = 1500 - leTo->size().height() * 3 - lvlFloor->size().height();
+  timeTable->setFixedHeight(size);
+  timeTable->setFixedWidth(205);
   timeTable->setStyleSheet("QLabel { "
-                           "background-color: white; "
-                           "border: 0.3px solid black; "
-                           "border-top-width: 1px; "
-                           "border-radius: 0.1px; "
-                           "font: 10.5pt 'Helvetica';"
+                           "background-color: #f1f1f1; "
+                           "border: 0px solid black; "
+                           "border-top-width: 0px; "
+                           "border-radius: 1px; "
+                           "font: 13pt 'Nocturno BG';"
                            "};");
-
-  QString data = "Введите группу для \nпоиска расписания!";
-  timeTable->setText(data);
-
-  vbox->setSpacing(0);
-  vbox->addLayout(hbox);
-  vbox->addWidget(lvlFloor, 1, Qt::AlignLeft);
-  vbox->addLayout(hbox2);
-  vbox->addWidget(timeTable, 1, Qt::AlignLeft);
-  vbox->addStretch(1);
 
   connect(FindTmTblButtom, SIGNAL(pressed()), this,
           SLOT(onFindTmTblButtomPressed()));
+
+  QVBoxLayout *vbox = new QVBoxLayout(this);
+  QHBoxLayout *hbox1 = new QHBoxLayout();
+  QHBoxLayout *hbox2 = new QHBoxLayout();
+
+  hbox1->setSpacing(5);
+  hbox1->addWidget(leFrom);
+  hbox1->addWidget(leTo);
+  hbox1->addStretch(1);
+
+  hbox2->setSpacing(5);
+  hbox2->addWidget(lblFrom);
+  hbox2->addWidget(lblTo);
+  hbox2->addStretch(0);
+
+  vbox->setSpacing(5);
+  vbox->addLayout(hbox2);
+  vbox->addLayout(hbox1);
+  vbox->addWidget(BuildButton);
+  vbox->addWidget(lvlFloor, 1, Qt::AlignLeft);
+  vbox->addStretch(1);
+  vbox->addWidget(lblTmtbl);
+  vbox->addWidget(room);
+  vbox->addWidget(FindTmTblButtom);
+  vbox->addWidget(timeTable);
+  vbox->addStretch(0);
+
+  QFrame *frame = new QFrame(this);
+  frame->setLayout(vbox);
+  frame->setGeometry(QRect(0, 0, 247, 1500));
+  frame->setStyleSheet("QFrame { "
+                       "background-color: white; "
+                       "border: 1px solid black; "
+                       "border-radius: 1px; "
+                       "background: #f1f1f1;"
+                       "};");
 }
 
 MainWindow::~MainWindow() {
@@ -155,73 +200,33 @@ void MainWindow::onLvFloorChanged(const QModelIndex, const QModelIndex) {
 }
 
 void MainWindow::onBuildPressed() {
-  qDebug() << "Build button pressed!  ";
-  qDebug() << leTo->text() << "    " << leFrom->text();
   leTo->clear();
   leFrom->clear();
 }
 
 void MainWindow::onFindTmTblButtomPressed() {
-  qDebug() << "Find timetable pressed!  ";
   QString data = "Расписание!!!!";
-  qDebug() << room->text();
   timeTable->setText(data);
-
   room->clear();
 }
 
 void MainWindow::draw_example() {
-  Point start;
-  start.x = 200;
-  start.y = 200;
-  Point end;
-  end.x = 400;
-  end.y = 200;
-  controller->drawer->drawLine(start, end);
+  Point point1;
+  point1.x = 200;
+  point1.y = 200;
+  Point point2;
+  point2.x = 400;
+  point2.y = 200;
+  Point point3;
+  point3.x = 400;
+  point3.y = 350;
+  Point point4;
+  point4.x = 200;
+  point4.y = 350;
 
-  start.x = 200;
-  start.y = 200;
-  end.x = 200;
-  end.y = 350;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 200;
-  start.y = 350;
-  end.x = 400;
-  end.y = 350;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 400;
-  start.y = 350;
-  end.x = 400;
-  end.y = 200;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 200;
-  start.y = 300;
-  end.x = 280;
-  end.y = 300;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 300;
-  start.y = 300;
-  end.x = 300;
-  end.y = 200;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 300;
-  start.y = 300;
-  end.x = 380;
-  end.y = 300;
-  controller->drawer->drawLine(start, end);
-
-  start.x = 250;
-  start.y = 250;
-  controller->drawer->drawText("305", start);
-
-  start.x = 350;
-  start.y = 250;
-  controller->drawer->drawText("306", start);
+  Point points[4] = {point1, point2, point3, point4};
+  controller->drawer->drawPolygon(points, 4);
+  controller->drawer->drawImage(point1, "../image/stair.png");
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
