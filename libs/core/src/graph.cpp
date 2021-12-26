@@ -2,9 +2,26 @@
 
 Graph::Graph() : db(GRAPH_TABLE_NAME, GRAPH_TABLE_FORMAT) {}
 
+Graph::Graph(const Core::Model::Map &model) : db(GRAPH_TABLE_NAME, GRAPH_TABLE_FORMAT) {
+
+    load_data();
+
+    auto &rooms = model.getRooms();
+
+    for (int i = 0; i < rooms.size(); ++i) {
+        data[i].room = const_cast<Room*>(&rooms[i]);
+    }
+}
+
 void Graph::add_top(int id) {
     if (get_pointer(id) == nullptr) {
-        data.push_back({id, {}});
+        data.push_back({id, {}, nullptr});
+    }
+}
+
+void Graph::add_top(int id, Room* r) {
+    if (get_pointer(id) == nullptr) {
+        data.push_back({id, {}, r});
     }
 }
 
@@ -125,8 +142,55 @@ std::pair<std::vector<int>, int> Graph::calculate_route(int location,
             }
         }
     }
+
     return result;
 }
+
+std::pair<std::vector<Neighbour*>, int> Graph::calculate_route_(int location,
+                                                        int destination) {
+    std::queue<std::pair<std::vector<int>, int>> route;
+    route.push({{location}, 0});
+
+    std::pair<std::vector<int>, int> result;
+    bool route_found = false;
+
+    while (!route.empty()) {
+        std::pair<std::vector<int>, int> buffer = route.front();
+        route.pop();
+
+        if (route_found && result.second < buffer.second) {
+            continue;
+        }
+
+        for (const auto& it : get_pointer(buffer.first.back())->edge) {
+            std::pair<std::vector<int>, int> buf = buffer;
+            if (std::find(buf.first.begin(), buf.first.end(), it.first) ==
+                buf.first.end()) {
+                buf.first.push_back(it.first);
+                buf.second += it.second;
+                route.push(buf);
+
+                if (it.first == destination && !route_found) {
+                    result = buf;
+                    route_found = true;
+                }
+
+                if (it.first == destination && route_found &&
+                    buf.second < result.second) {
+                    result = buf;
+                }
+            }
+        }
+    }
+
+    std::vector<Neighbour*> pointers(result.first.size());
+    for (int i = 0; i < result.first.size(); ++i) {
+        pointers.push_back(get_pointer(result.first[i]));
+    }
+
+    return std::make_pair(pointers, result.second);
+}
+
 
 void Graph::load_data() {
     db.read_table(data);

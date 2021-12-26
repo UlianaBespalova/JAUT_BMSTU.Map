@@ -56,6 +56,7 @@ void Database::read_table(std::vector<Neighbour> &data) {
     for (auto const &row : R) {
         Neighbour buffer;
         buffer.id = row[0].as<int>();
+        buffer.room = nullptr;
 
         auto arr = row[1].as_array();
         std::pair<pqxx::array_parser::juncture, std::string> elem;

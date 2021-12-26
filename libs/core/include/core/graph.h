@@ -10,12 +10,19 @@
 
 #include "database.h"
 #include "neighbour.h"
+#include "ModelMap.hpp"
+
+using Room = Core::Model::Map::Room;
 
 class Graph {
 public:
     Graph();
 
+    Graph(const Core::Model::Map &model);
+
     void add_top(int _id);
+
+    void add_top(int _id, Room* r);
 
     void add_edge(int id_l, int id_r, int time);
 
@@ -26,6 +33,9 @@ public:
     bool is_neighbours(int id_l, int id_r);
 
     std::pair<std::vector<int>, int> calculate_route(int location,
+                                                     int destination);
+
+    std::pair<std::vector<Neighbour*>, int> calculate_route_(int location,
                                                      int destination);
 
     void save_data();
