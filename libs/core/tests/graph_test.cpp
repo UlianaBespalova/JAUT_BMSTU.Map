@@ -20,7 +20,7 @@ TEST(calculate_route_test_0, Assert_0) {
     g.add_edge(6, 3, 2);
     g.add_edge(6, 4, 2);
 
-    std::pair<std::vector<int>, int> r = g.calculate_route(0, 6);
+    std::pair<std::vector<Neighbour*>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
@@ -49,13 +49,13 @@ TEST(calculate_route_test_1, Assert_1) {
     g.add_edge(6, 3, 2);
     g.add_edge(6, 4, 2);
 
-    std::pair<std::vector<Neighbour*>, int> r = g.calculate_route_(0, 6);
+    std::pair<std::vector<Neighbour*>, int> r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 7);
 
     g.add_edge(6, 0, 3);
 
-    r = g.calculate_route_(0, 6);
+    r = g.calculate_route(0, 6);
 
     EXPECT_EQ(r.second, 3);
 }

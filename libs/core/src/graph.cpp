@@ -1,17 +1,10 @@
 #include "graph.h"
 
-Graph::Graph() : db(GRAPH_TABLE_NAME, GRAPH_TABLE_FORMAT) {}
-
-Graph::Graph(const Core::Model::Map &model) : db(GRAPH_TABLE_NAME, GRAPH_TABLE_FORMAT) {
-
-    load_data();
-
-    auto &rooms = model.getRooms();
-
-    for (int i = 0; i < rooms.size(); ++i) {
-        data[i].room = const_cast<Room*>(&rooms[i]);
-    }
+Graph::Graph(int rooms_count) {
+    data.resize(rooms_count);
 }
+
+Graph::Graph() {}
 
 void Graph::add_top(int id) {
     if (get_pointer(id) == nullptr) {
@@ -106,7 +99,7 @@ bool Graph::del_top(int id) {
     return true;
 }
 
-std::pair<std::vector<int>, int> Graph::calculate_route(int location,
+std::pair<std::vector<int>, int> Graph::calculate_route_(int location,
                                                         int destination) {
     std::queue<std::pair<std::vector<int>, int>> route;
     route.push({{location}, 0});
@@ -146,7 +139,7 @@ std::pair<std::vector<int>, int> Graph::calculate_route(int location,
     return result;
 }
 
-std::pair<std::vector<Neighbour*>, int> Graph::calculate_route_(int location,
+std::pair<std::vector<Neighbour*>, int> Graph::calculate_route(int location,
                                                         int destination) {
     std::queue<std::pair<std::vector<int>, int>> route;
     route.push({{location}, 0});
@@ -189,26 +182,4 @@ std::pair<std::vector<Neighbour*>, int> Graph::calculate_route_(int location,
     }
 
     return std::make_pair(pointers, result.second);
-}
-
-
-void Graph::load_data() {
-    db.read_table(data);
-    return;
-}
-
-void Graph::save_data() {
-    for (const auto& it : data) {
-        std::stringstream ss;
-        ss << it.id << ", ARRAY[";
-        for (const auto& it_ : it.edge) {
-            ss << "[" << it_.first << ", " << it_.second << "]";
-            if (it_ != it.edge.back()) {
-                ss << ", ";
-            }
-        }
-        ss << "]::integer[][]";
-        db.insert_table(ss.str());
-    }
-    return;
 }

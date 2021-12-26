@@ -1,0 +1,5 @@
+dbname=ruslan16
+user=ruslan16
+password=ruslan16
+host_address=127.0.0.1
+port=5432
