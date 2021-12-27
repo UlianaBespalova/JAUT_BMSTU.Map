@@ -13,6 +13,8 @@ set(LIB_HEADERS_FILES
         ${LIB_HEADERS_DIR}/ModelMap.hpp
         ${LIB_HEADERS_DIR}/ViewMap.hpp
         ${LIB_HEADERS_DIR}/graph.h
+        ${LIB_HEADERS_DIR}/database.h
+        ${LIB_HEADERS_DIR}/neighbour.h
         )
 
 set(LIB_SOURCE_FILES
@@ -20,7 +22,11 @@ set(LIB_SOURCE_FILES
         ${LIB_SOURCE_DIR}/ModelMap.cpp
         ${LIB_SOURCE_DIR}/ViewMap.cpp
         ${LIB_SOURCE_DIR}/graph.cpp
+        ${LIB_SOURCE_DIR}/database.cpp
         )
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.txt
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 project(${PROJECT_NAME})
 add_library(${LIB_NAME} SHARED ${LIB_HEADERS_FILES} ${LIB_SOURCE_FILES})
@@ -59,6 +65,9 @@ if (NOT ${nlohmann_json_FOUND})
 endif ()
 target_link_libraries(${LIB_NAME} nlohmann_json::nlohmann_json)
 
+find_library(PQXX_LIB pqxx)
+find_library(PQ_LIB pq)
+target_link_libraries(${LIB_NAME} ${PQXX_LIB} ${PQ_LIB})
 
 # main
 set(MAIN_NAME ${LIB_NAME}_main)

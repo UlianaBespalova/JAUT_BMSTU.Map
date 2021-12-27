@@ -1,46 +1,51 @@
 #ifndef BMSTU_MAP_CORE_GRAPH_H
 #define BMSTU_MAP_CORE_GRAPH_H
 
-#include <iostream>
-#include <vector>
-#include <tuple>
 #include <algorithm>
+#include <iostream>
 #include <queue>
+#include <sstream>
+#include <tuple>
+#include <vector>
 
+#include "neighbour.h"
 #include "ModelMap.hpp"
 
-using namespace std;
-using namespace Core;
-using Room = Model::Map::Room;
-
+using Room = Core::Model::Map::Room;
 
 class Graph {
 public:
-    struct Neighbour {
-        int id;
-        vector<pair<Neighbour*, int>> edge;
-        Room *room;
-    };
+    Graph(int rooms_count);
 
-    explicit Graph(const Model::Map &model) {
-        auto &rooms = model.getRooms();
-        int id = 0;
-        for (auto &room : rooms)
-            add_top(id++, const_cast<Room *>(&room));  // TODO: fix const
+    Graph();
 
-        for (int i = 1; i < rooms.size(); ++i)
-            add_edge(0, i, 10);
-    }
+    Graph(const Core::Model::Map &model);
 
-	void add_top(int _id, Room *r);
-	void add_edge(int id1, int id2, int time);
+    void add_top(int _id);
 
-	pair<vector<Neighbour*>, int> calculate_route(int _location, int _destination);
-	pair<vector<Neighbour*>, int> calculate_route(Neighbour* location, Neighbour* destination);
+    void add_top(int _id, Room* r);
+
+    void add_edge(int id_l, int id_r, int time);
+
+    bool del_top(int id);
+
+    bool del_edge(int id_l, int id_r);
+
+    bool is_neighbours(int id_l, int id_r);
+
+    std::pair<std::vector<int>, int> calculate_route_(int location,
+                                                     int destination);
+
+    std::pair<std::vector<Neighbour*>, int> calculate_route(int location,
+                                                     int destination);
 
 private:
-	Neighbour* get_pointer(int id);
-	vector<Neighbour> data;
+    Neighbour* get_pointer(int id);
+
+    void move_top(std::vector<std::pair<int, int>>&, int id);
+
+    std::vector<Neighbour> data;
 };
+
 
 #endif // BMSTU_MAP_CORE_GRAPH_H

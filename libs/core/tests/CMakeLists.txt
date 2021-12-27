@@ -14,6 +14,8 @@ set(LIB_TESTS_SOURCE
 
 project(${TEST_PROJECT_NAME})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../config.txt
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 # GTests
 find_package(GTest REQUIRED)

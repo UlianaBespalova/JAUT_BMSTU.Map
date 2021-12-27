@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 
+#include "core/database.h"
 #include "core/core.hpp"
+#include "core/database.h"
 
 
 using namespace Core;
@@ -19,10 +21,13 @@ class DummyDrawer : public View::IDrawer {
 
 int main(int argc, char *argv[])
 {
-    printf("Creating Model::Map... ");
-    Model::Map model(json::parse(R"({"floors":[{"floor":8,"rooms":[{"type":2,"walls":[{"start":[557,510],"end":[557,733]},{"start":[2981,510],"end":[557,510]},{"start":[2981,733],"end":[2981,510]},{"start":[557,733],"end":[2981,733]}]}]}]})"));
-    printf("Done: %lu rooms\n", model.getRooms().size());
 
+    printf("Creating Model::Map... ");
+
+    Database json_db(JSON_TABLE_NAME, JSON_TABLE_FORMAT);
+    Model::Map model(json::parse(json_db.read_json()));
+
+    printf("Done: %lu rooms\n", model.getRooms().size());
 
     printf("Creating Drawer... ");
     DummyDrawer drawer;
