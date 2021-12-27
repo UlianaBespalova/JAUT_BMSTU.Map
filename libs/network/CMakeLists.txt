@@ -9,24 +9,12 @@ set(LIB_SOURCE_DIR src)
 set(LIB_HEADERS_DIR include/${LIB_NAME})
 
 set(LIB_HEADERS_FILES
-#        ${LIB_HEADERS_DIR}/baseConnection.h
-        ${LIB_HEADERS_DIR}/types.h
-#        ${LIB_HEADERS_DIR}/bitopManager.h
-#        ${LIB_HEADERS_DIR}/cacheManager.h
-#        ${LIB_HEADERS_DIR}/mapManager.h
-#        ${LIB_HEADERS_DIR}/router.h
+        ${LIB_HEADERS_DIR}/clientTypes.h
         ${LIB_HEADERS_DIR}/httpClient.h
-#        ${LIB_HEADERS_DIR}/httpServer.h
         )
 
 set(LIB_SOURCE_FILES
-#        ${LIB_SOURCE_DIR}/baseConnection.cpp
-#        ${LIB_SOURCE_DIR}/bitopManager.cpp
-#        ${LIB_SOURCE_DIR}/cacheManager.cpp
-#        ${LIB_SOURCE_DIR}/mapManager.cpp
-#        ${LIB_SOURCE_DIR}/router.cpp
         ${LIB_SOURCE_DIR}/httpClient.cpp
-#        ${LIB_SOURCE_DIR}/httpServer.cpp
         )
 
 project(${PROJECT_NAME})
@@ -53,6 +41,8 @@ set(BOOST_REQUESTED_VERSION 1.68.0)
 
 find_package(Threads)
 target_link_libraries(${LIB_NAME} pthread)
+target_link_libraries(${LIB_NAME} ssl)
+target_link_libraries(${LIB_NAME} crypto)
 
 find_package(Boost REQUIRED)
 set(Boost_USE_STATIC_LIBS ON)

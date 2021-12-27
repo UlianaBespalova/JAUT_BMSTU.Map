@@ -6,27 +6,25 @@
 
 int main(int argc, char *argv[])
 {
-    HttpClient client;
-    ResponseStruct resultStruct;
-
-    struct { const char *address; unsigned short int port; const char *target; } servers[] = {
-            { "908e-109-69-29-254.ngrok.io", 80, "/map" },
-            { "152.70.54.11", 8000, "/data" },
+    struct { HostAddress host; std::string target; } servers[] = {
+            {{ "", "152.70.54.11", 8000 }, "/data" },
     };
 
-    bool got_data = false;
-    for (auto server : servers) {
-        Response result = client.makeGetRequest(server.address, server.port, server.target);
-        resultStruct = HttpClient::parseResponse(result);
-        printf("status %u\n", resultStruct.status);
-        if (resultStruct.status == 200) {
-            got_data = true;
+    HttpClient client;
+
+    struct { bool success = false; ResponseStruct result; } search;
+    for (const auto &server : servers) {
+        Response response = client.makeGetRequest(server.host, server.target);
+        search.result = client.parseResponse(response);
+
+        if (search.result.status == 200) {
+            search.success = true;
             break;
         }
     }
-    if (not got_data) return -1;
+    if (not search.success) return -1;
 
-    Core::Model::Map m(Core::json::parse(resultStruct.body));
+    Core::Model::Map m(Core::json::parse(search.result.body));
 
     QApplication a(argc, argv);
     MainWindow w(&m);
