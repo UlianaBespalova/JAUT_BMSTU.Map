@@ -140,6 +140,9 @@ std::pair<std::vector<Neighbour*>, int> Graph::calculate_route(int location, int
 
     std::pair<std::vector<int>, int> result;
     bool route_found = false;
+    if (get_pointer(location) == nullptr or get_pointer(destination) == nullptr) {
+        return {{}, 0};
+    }
 
     while (!route.empty()) {
         std::pair<std::vector<int>, int> buffer = route.front();
