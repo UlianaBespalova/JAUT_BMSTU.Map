@@ -74,6 +74,9 @@ void View::Map::drawRoom(const Model::Map::Room &room) {
     // ### Icons  // TODO: rework
     if (room.type == Model::Map::Room::Type::Stairs)
         drawer->drawImage(room.center(), "../media/stair.png");
+    if (room.type == Model::Map::Room::Type::Elevator)
+        drawer->drawImage(room.center(), "../media/lift.png");
+
 }
 
 void View::Map::setPath(const Path &p)
