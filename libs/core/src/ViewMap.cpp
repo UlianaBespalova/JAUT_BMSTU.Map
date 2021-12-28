@@ -48,27 +48,32 @@ const RoomColors &getColor(const Model::Map::Room &room) {
 }
 
 void View::Map::drawRoom(const Model::Map::Room &room) {
+    // ### Polygon
     RoomColors colors = getColor(room);
     drawer->setLineColor(colors.lines);
     drawer->setBrushColor(colors.brush);
 
-    std::vector<Geometry::Point> points;
-    Geometry::Point start = room.getWalls().begin()->start;
+    std::vector<Geometry::Point> points;  // collecting points for polygon
     for (const auto &wall : room.getWalls()) {
         points.push_back(wall.end);
-
-        for (auto point : { wall.start, wall.end })
-            if (point.y <= start.y and point.x <= start.x)
-                start = point;
     }
-
-    start.x += 20;
-    start.y += 30;
-
     drawer->drawPolygon(points);
 
+
+    // ### Text
+    Geometry::Point pos = room.start();
+
+    // fixing text pos
+    pos.x += 20;
+    pos.y += 30;
+
     std::string text = (room.properties.find("name") != room.properties.end()) ? room.properties.at("name") : std::to_string(room.id);
-    drawer->drawText(text, start);
+    drawer->drawText(text, pos);
+
+
+    // ### Icons  // TODO: rework
+    if (room.type == Model::Map::Room::Type::Stairs)
+        drawer->drawImage(room.center(), "../media/stair.png");
 }
 
 void View::Map::setPath(const Path &p)

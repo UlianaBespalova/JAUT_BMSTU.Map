@@ -26,6 +26,8 @@ namespace Core {
                     std::unordered_map<std::string, std::string> properties;
 
                     inline const std::vector<Wall> &getWalls() const { return walls; };
+                    Geometry::Point start() const;
+                    Geometry::Point center() const;
                 };
 
             protected:

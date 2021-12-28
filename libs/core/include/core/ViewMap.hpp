@@ -16,6 +16,7 @@ namespace Core {
                 virtual void drawText(const std::string &, Geometry::Point) = 0;
                 virtual void setLineColor(const Color &) = 0;
                 virtual void setBrushColor(const Color &) = 0;
+                virtual void drawImage(Geometry::Point start, const std::string &path) = 0;
         };
 
         class Map {

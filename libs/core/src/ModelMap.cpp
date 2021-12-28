@@ -3,7 +3,8 @@
 using namespace Core;
 
 
-Model::Map::Map(const json &j) { //}, graph() {
+Model::Map::Map(const json &j)
+{
     const static std::string by_floors = "floors";
     const static std::string key_floor = "floor";
     const static std::string key_rooms = "rooms";
@@ -66,4 +67,32 @@ void Model::from_json(const json &j, Model::Map::Room &r)
     if (j.contains(room_properties))
         for (auto &el: j.at(room_properties).items())
             r.properties[el.key()] = el.value();
+}
+
+Geometry::Point Model::Map::Room::start() const
+{
+    Geometry::Point start = walls.begin()->start;
+
+    for (const auto &wall: walls) {
+        for (auto point : { wall.start, wall.end }) {
+            if (point.y <= start.y and point.x <= start.x)
+                start = point;
+        }
+    }
+
+    return start;
+}
+
+Geometry::Point Model::Map::Room::center() const
+{
+    Geometry::Point sum = { 0, 0 };
+    for (const auto &wall: walls) {
+        for (const auto &p: { wall.start, wall.end }) {
+            sum.x += p.x;
+            sum.y += p.y;
+        }
+    }
+
+    auto n = walls.size() * 2;
+    return {sum.x / n, sum.y / n };
 }

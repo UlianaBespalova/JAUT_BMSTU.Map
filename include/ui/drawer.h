@@ -31,8 +31,7 @@ public:
   void drawText(const std::string &text, Point start) override;
   void setLineColor(const Color &color) override;
   void setBrushColor(const Color &color) override;
-
-  void drawImage(Point start, const std::string &path);
+  void drawImage(Point, const std::string &path);
 
   void setFloor(int new_floor);
   void setScale(qreal new_scale);
