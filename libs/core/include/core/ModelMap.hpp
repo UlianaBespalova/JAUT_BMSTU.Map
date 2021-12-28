@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "geometry.hpp"
-//#include "graph.h"
+#include "graph.h"
 
 
 namespace Core {
@@ -40,7 +40,7 @@ namespace Core {
                 Map &operator=(const Map &) = delete;
 
                 inline const rooms_t &getRooms() const { return rooms; }
-//                Graph graph;
+                Graph graph;
 //                inline const Graph &getGraph() const { return graph; }
         };
 

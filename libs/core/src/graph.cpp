@@ -172,7 +172,7 @@ std::pair<std::vector<Neighbour*>, int> Graph::calculate_route(int location, int
 
     std::vector<Neighbour*> pointers(result.first.size());
     for (int i = 0; i < result.first.size(); ++i) {
-        pointers.push_back(get_pointer(result.first[i]));
+        pointers[i] = get_pointer(result.first[i]);
     }
 
     return std::make_pair(pointers, result.second);

@@ -16,14 +16,14 @@ Model::Map::Map(const json &j) { //}, graph() {
             auto room = json_room.get<Room>();
             room.floor = floor;
             rooms[room.id] = room;
-//            graph.add_top(room.id);
+            graph.add_top(room.id);
         }
 
-//        for (auto &json_room: json_floor.at(key_rooms)) {
-//            auto room = json_room.get<Room>();
-////            for (auto &to_room : json_room.at("connected"))
-////                graph.add_edge(room.id, to_room.get<id_t>(), 1);
-//        }
+        for (auto &json_room: json_floor.at(key_rooms)) {
+            auto room = json_room.get<Room>();
+            for (auto &to_room : json_room.at("connected"))
+                graph.add_edge(room.id, to_room.get<id_t>(), 1);
+        }
     }
 }
 

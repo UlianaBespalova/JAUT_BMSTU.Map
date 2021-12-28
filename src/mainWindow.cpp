@@ -208,25 +208,25 @@ void MainWindow::onBuildPressed() {
   int to_id = leTo->text().toInt(&okTo);
 
   if (okTo and okFrom) {
-//      auto path = mapmodel->graph.calculate_route(from_id, to_id);
-//
-//      // transform path into vector of points
-//      std::vector<Point> points;
-//      for (auto &neighbour : path.first) {
-//          Core::Geometry::geometry_t x_sum = 0, y_sum = 0;
-//          unsigned int p_num = 0;
-//          for (auto &wall: mapmodel->getRooms().at(neighbour->id).getWalls()) {
-//              x_sum += wall.start.x;
-//              y_sum += wall.start.y; ++p_num;
-//              x_sum += wall.end.x;
-//              y_sum += wall.end.y; ++p_num;
-//          }
-//          Point p = { x_sum / p_num, y_sum / p_num };
-//          points.push_back(p);
-//      }
-//
-//      mapview->setPath(points);
-//      update();
+      auto path = mapmodel->graph.calculate_route(from_id, to_id);
+
+      // transform path into vector of points
+      std::vector<Point> points;
+      for (auto &neighbour : path.first) {
+          Core::Geometry::geometry_t x_sum = 0, y_sum = 0;
+          unsigned int p_num = 0;
+          for (auto &wall: mapmodel->getRooms().at(neighbour->id).getWalls()) {
+              x_sum += wall.start.x;
+              y_sum += wall.start.y; ++p_num;
+              x_sum += wall.end.x;
+              y_sum += wall.end.y; ++p_num;
+          }
+          Point p = { x_sum / p_num, y_sum / p_num };
+          points.push_back(p);
+      }
+
+      mapview->setPath(points);
+      update();
   }
 
   leTo->clear();
