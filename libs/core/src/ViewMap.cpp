@@ -20,7 +20,7 @@ const View::Color black = { 0, 0, 0 };
 const View::Color light_gray = { 192, 192, 192 };
 const View::Color red = { 255, 0, 0 };
 const View::Color blue_room = {211,232,255};
-const View::Color blue_coridor = {235,235,235};
+const View::Color blue_corridor = {235,235,235};
 const View::Color blue_lift = {175,201,244};
 const View::Color grey = {241,241,241};
 
@@ -37,7 +37,7 @@ const RoomColors &getColor(const Model::Map::Room &room) {
     static const std::unordered_map<Type, RoomColors> colors = {
             { Type::Unknown, { black, red }},
             { Type::Cabinet, { black, blue_room }},
-            { Type::Corridor, { black, blue_coridor }},
+            { Type::Corridor, { black, blue_corridor }},
             { Type::Stairs, { black, blue_lift }},
             { Type::Elevator, { black, blue_lift }},
     };
