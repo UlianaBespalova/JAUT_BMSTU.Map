@@ -4,16 +4,13 @@ Drawer::Drawer() {
     view_pos.x = 0;
     view_pos.y = 0;
     floor = 0;
-    QPen pen;
-    QBrush brush;
-
 }
 
 Drawer::~Drawer() {
     delete painter;
 }
 
-QPoint Drawer::rePoint(Point &point) {
+QPoint Drawer::rePoint(const Point &point) const {
     return QPoint(point.x*scale + view_pos.x, point.y*scale + view_pos.y);
 }
 
@@ -32,21 +29,21 @@ void Drawer::drawLine(Point start, Point end) {
     painter->drawLine(rePoint(start), rePoint(end));
 }
 
-void Drawer::drawPolygon(Point *points, int pointCount) {
+void Drawer::drawPolygon(const std::vector<Point> &points) {
     pen.setWidth(5);
     brush.setStyle(Qt::SolidPattern);
 
     painter->setPen(pen);
     painter->setBrush(brush);
 
-    QPoint qpoints[pointCount];
-    for (size_t i = 0; i < pointCount; i++) {
+    QPoint qpoints[points.size()];
+    for (size_t i = 0; i < points.size(); i++) {
         qpoints[i] = rePoint(points[i]);
     }
-    painter->drawPolygon(qpoints, pointCount);
+    painter->drawPolygon(qpoints, points.size());
 }
 
-void Drawer::drawImage(Point start, std::string path) {
+void Drawer::drawImage(Point start, const std::string &path) {
      QImage image(QString::fromStdString(path));
     if (!image.isNull()) {
         image = image.scaled(image.size().width() * scale,
@@ -58,16 +55,16 @@ void Drawer::drawImage(Point start, std::string path) {
     }
 }
 
-void Drawer::drawText(std::string text, Point start) {
+void Drawer::drawText(const std::string &text, Point start) {
     painter->setPen(pen);
     painter->drawText(rePoint(start), QString::fromStdString(text));
 }
 
-void Drawer::setColor(Color color) {
+void Drawer::setLineColor(const Color &color) {
     pen.setColor(QColor(color.r, color.g, color.b));
 }
 
-void Drawer::setBrushColor(Color &color) {
+void Drawer::setBrushColor(const Color &color) {
     brush.setColor(QColor(color.r, color.g, color.b));
 }
 
@@ -77,7 +74,7 @@ void Drawer::setViewPos(Point new_pos) {
 }
 
 
-qreal Drawer::getScale() {
+qreal Drawer::getScale() const {
     return scale;
 }
 

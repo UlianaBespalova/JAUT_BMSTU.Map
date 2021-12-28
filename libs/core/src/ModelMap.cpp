@@ -2,55 +2,58 @@
 
 using namespace Core;
 
-const std::string by_floors = "floors";
-const std::string by_rooms = "rooms";
-const std::string key_floor = "floor";
-const std::string key_rooms = "rooms";
 
-std::vector<Model::Map::Room> Model::Map::load(const json &j)
-{
-    std::vector<Room> rooms;
+Model::Map::Map(const json &j) { //}, graph() {
+    const static std::string by_floors = "floors";
+    const static std::string key_floor = "floor";
+    const static std::string key_rooms = "rooms";
+
     // rooms by floors
-    if (j.contains(by_floors))
-        for (auto &json_floor: j.at(by_floors)) {
-            int floor = json_floor.at(key_floor);
+    for (auto &json_floor: j.at(by_floors)) {
+        int floor = json_floor.at(key_floor);
 
-            for (auto &json_room : json_floor.at(key_rooms)) {
-                auto room = json_room.get<Room>();
-                room.floor = floor;
-                rooms.push_back(room);
-            }
+        for (auto &json_room: json_floor.at(key_rooms)) {
+            auto room = json_room.get<Room>();
+            room.floor = floor;
+            rooms[room.id] = room;
+//            graph.add_top(room.id);
         }
 
-    // remaining rooms
-    if (j.contains(by_rooms))
-        for (auto &json_room: j.at(by_rooms))
-            rooms.push_back(json_room.get<Room>());
-    return rooms;
+//        for (auto &json_room: json_floor.at(key_rooms)) {
+//            auto room = json_room.get<Room>();
+////            for (auto &to_room : json_room.at("connected"))
+////                graph.add_edge(room.id, to_room.get<id_t>(), 1);
+//        }
+    }
 }
 
-Model::Map::Map(const json &j) : rooms(load(j)) { }
-
-
-const std::string wall_type = "type";
-const std::string wall_start = "start";
-const std::string wall_end = "end";
-
+// JSON format: [ x, y, * type ]
 void Model::from_json(const json &j, Map::Wall &w)
 {
-    if (j.contains(wall_type)) j.at(wall_type).get_to(w.type);
-    j.at(wall_start).get_to(w.start);
-    j.at(wall_end).get_to(w.end);
+    j.at(0).get_to(w.start);
+    j.at(1).get_to(w.end);
+    if (j.size() > 2) j.at(2).get_to(w.type);
 }
 
-
-const std::string room_walls = "walls";
-const std::string room_floor = "floor";
-const std::string room_type = "type";
-const std::string room_properties = "properties";
-
+/* JSON format:
+{
+    "id": unsigned int,
+    "walls": [ Map::Wall ],
+ *  "type": Map::Wall,
+ *  "floor": int,
+ *  "properties" : { ... }
+}
+ */
 void Model::from_json(const json &j, Model::Map::Room &r)
 {
+    const static std::string room_id = "id";
+    const static std::string room_type = "type";
+    const static std::string room_floor = "floor";
+    const static std::string room_walls = "walls";
+    const static std::string room_properties = "properties";
+
+    j.at(room_id).get_to(r.id);
+
     for (auto &jw: j.at(room_walls))
         r.walls.push_back(jw.get<Map::Wall>());
 

@@ -12,7 +12,10 @@ namespace Core {
         class IDrawer {
             public:
                 virtual void drawLine(Geometry::Point start, Geometry::Point end) = 0;
-                virtual void setColor(Color) = 0;
+                virtual void drawPolygon(const std::vector<Geometry::Point> &points) = 0;
+                virtual void drawText(const std::string &, Geometry::Point) = 0;
+                virtual void setLineColor(const Color &) = 0;
+                virtual void setBrushColor(const Color &) = 0;
         };
 
         class Map {
@@ -36,7 +39,6 @@ namespace Core {
 
                 void drawPath(const Path &room);
                 void drawRoom(const Model::Map::Room &room);
-                void drawWall(const Model::Map::Wall &wall);
         };
     }
 }

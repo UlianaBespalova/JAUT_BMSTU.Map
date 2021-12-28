@@ -20,21 +20,25 @@ private:
   QPen pen;
   QBrush brush;
 
-  QPoint rePoint(Point &point);
+  QPoint rePoint(const Point &point) const;
 
 public:
   Drawer();
   ~Drawer();
+
   void drawLine(Point start, Point end) override;
-  void drawPolygon(Point *points, int pointCount);
-  void drawImage(Point start, std::string path);
-  void drawText(std::string text, Point start);
+  void drawPolygon(const std::vector<Point> &points) override;
+  void drawText(const std::string &text, Point start) override;
+  void setLineColor(const Color &color) override;
+  void setBrushColor(const Color &color) override;
+
+  void drawImage(Point start, const std::string &path);
+
   void setFloor(int new_floor);
   void setScale(qreal new_scale);
-  void setColor(Color color);
-  void setBrushColor(Color &color);
   void setViewPos(Point new_pos);
-  qreal getScale();
+
+  qreal getScale() const;
   Point getViewPos();
 
   QPainter *painter;

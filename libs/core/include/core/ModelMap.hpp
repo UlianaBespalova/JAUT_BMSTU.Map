@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "geometry.hpp"
+//#include "graph.h"
 
 
 namespace Core {
@@ -15,7 +16,10 @@ namespace Core {
                     Geometry::Point start = { }, end = { };
                 };
 
+                typedef unsigned int id_t;
+
                 struct Room {
+                    id_t id;
                     enum class Type { Unknown, Cabinet, Corridor, Stairs, Elevator } type = Type::Unknown;
                     int floor = 0;
                     std::vector<Wall> walls = { };
@@ -25,8 +29,8 @@ namespace Core {
                 };
 
             protected:
-                std::vector<Room> rooms;
-                static std::vector<Room> load(const json& j);
+                typedef std::unordered_map<id_t, Room> rooms_t;
+                rooms_t rooms;
 
             public:
                 explicit Map(const json& j);
@@ -35,7 +39,9 @@ namespace Core {
                 Map(const Map &) = delete;
                 Map &operator=(const Map &) = delete;
 
-                inline const std::vector<Room> &getRooms() const { return rooms; }
+                inline const rooms_t &getRooms() const { return rooms; }
+//                Graph graph;
+//                inline const Graph &getGraph() const { return graph; }
         };
 
         void from_json(const json &j, Map::Wall &w);

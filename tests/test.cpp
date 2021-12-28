@@ -34,7 +34,7 @@ TEST(Drawer, setParams) {
   Point p;
   p.x = 100;
   p.y = -200;
-  EXPECT_NO_FATAL_FAILURE(drawer.setColor(c));
+  EXPECT_NO_FATAL_FAILURE(drawer.setLineColor(c));
   EXPECT_NO_FATAL_FAILURE(drawer.setFloor(3));
   EXPECT_NO_FATAL_FAILURE(drawer.setScale(1.2));
   EXPECT_NO_FATAL_FAILURE(drawer.setViewPos(p));

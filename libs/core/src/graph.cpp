@@ -8,13 +8,7 @@ Graph::Graph() {}
 
 void Graph::add_top(int id) {
     if (get_pointer(id) == nullptr) {
-        data.push_back({id, {}, nullptr});
-    }
-}
-
-void Graph::add_top(int id, Room* r) {
-    if (get_pointer(id) == nullptr) {
-        data.push_back({id, {}, r});
+        data.push_back({id, {}});
     }
 }
 
@@ -139,8 +133,8 @@ std::pair<std::vector<int>, int> Graph::calculate_route_(int location,
     return result;
 }
 
-std::pair<std::vector<Neighbour*>, int> Graph::calculate_route(int location,
-                                                        int destination) {
+std::pair<std::vector<Neighbour*>, int> Graph::calculate_route(int location, int destination)
+{
     std::queue<std::pair<std::vector<int>, int>> route;
     route.push({{location}, 0});
 
