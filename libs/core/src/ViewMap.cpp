@@ -19,9 +19,12 @@ const View::Color white = { 255, 255, 255 };
 const View::Color black = { 0, 0, 0 };
 const View::Color light_gray = { 192, 192, 192 };
 const View::Color red = { 255, 0, 0 };
-const View::Color green = { 0, 255, 0 };
-const View::Color light_green = { 127, 255, 127 };
-const View::Color light_blue = { 127, 127, 255 };
+const View::Color blue_room = {211,232,255};
+const View::Color blue_coridor = {235,235,235};
+const View::Color blue_lift = {175,201,244};
+const View::Color grey = {241,241,241};
+
+const View::Color path_color = {112, 4, 3};
 
 struct RoomColors {
     View::Color lines;
@@ -33,10 +36,10 @@ const RoomColors &getColor(const Model::Map::Room &room) {
 
     static const std::unordered_map<Type, RoomColors> colors = {
             { Type::Unknown, { black, red }},
-            { Type::Cabinet, { black, light_blue }},
-            { Type::Corridor, { black, light_gray }},
-            { Type::Stairs, { black, light_green }},
-            { Type::Elevator, { black, green }},
+            { Type::Cabinet, { black, blue_room }},
+            { Type::Corridor, { black, blue_coridor }},
+            { Type::Stairs, { black, blue_lift }},
+            { Type::Elevator, { black, blue_lift }},
     };
 
     auto item = colors.find(room.type);
@@ -89,7 +92,7 @@ void View::Map::setPath(const Path &p)
 
 void View::Map::drawPath(const Path &p)
 {
-    drawer->setLineColor(red);
+    drawer->setLineColor(path_color);
     for (int i = 1; i < p.size(); ++i) {
         drawer->drawLine(p[i - 1], p[i]);
     }
