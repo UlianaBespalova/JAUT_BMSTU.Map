@@ -4,7 +4,8 @@
 MainWindow::MainWindow(Core::Model::Map *map_model) : QWidget() {
   controller = new MapController();
   mapmodel = map_model;
-  mapview = new Core::View::Map(mapmodel, controller->drawer);  this->setWindowIcon(QIcon("../image/map.png"));
+  mapview = new Core::View::Map(mapmodel, controller->drawer);
+  this->setWindowIcon(QIcon("../image/map.png"));
   this->setWindowTitle("BMSTUMap");
   this->setStyleSheet("QWidget { "
                       "background-color: white ; "
@@ -202,13 +203,16 @@ void MainWindow::onLvFloorChanged(const QModelIndex, const QModelIndex) {
 
 void MainWindow::onBuildPressed() {
   qDebug() << "Build button pressed!  ";
-  qDebug() << leTo->text() << "    " << leFrom->text();
+  qDebug() << leFrom->text() << "    " << leTo->text();
   bool okTo = false, okFrom = false;
   int from_id = leFrom->text().toInt(&okFrom);
   int to_id = leTo->text().toInt(&okTo);
 
   if (okTo and okFrom) {
       auto path = mapmodel->graph.calculate_route(from_id, to_id);
+      if (path.second == 0) {
+          qDebug() << "Can't find path!  ";
+      }
 
       // transform path of rooms into vector of points
       std::vector<Point> points;
@@ -216,8 +220,8 @@ void MainWindow::onBuildPressed() {
           points.push_back(mapmodel->getRooms().at(neighbour->id).center());
       }
 
-      mapview->setPath(points);
-      update();
+    mapview->setPath(points);
+    update();
   }
 
   leTo->clear();
@@ -228,14 +232,15 @@ void MainWindow::onFindTmTblButtomPressed() {
   QString data = "There will be a \ntimetable!";
   qDebug() << room->text();
   timeTable->setText(data);
-  
+
   room->clear();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
   Q_UNUSED(event);
   controller->drawer->painter = new QPainter(this);
-  controller->drawer->painter->scale(controller->drawer->getScale(), controller->drawer->getScale());
+  controller->drawer->painter->scale(controller->drawer->getScale(),
+                                     controller->drawer->getScale());
   mapview->drawMap();
   controller->drawer->painter->end();
 }
@@ -269,7 +274,7 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event) {
 
 void MainWindow::wheelEvent(QWheelEvent *event) {
   qreal scale = controller->drawer->getScale();
-  scale += event->angleDelta().y() > 0 ? 0.005 : -0.005;
+  scale += event->angleDelta().y() > 0 ? 0.009 : -0.009;
   controller->drawer->setScale(scale);
   update();
 }
