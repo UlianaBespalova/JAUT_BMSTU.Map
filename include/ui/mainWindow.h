@@ -37,6 +37,9 @@ private:
   Core::View::Map *mapview;
   Core::Model::Map *mapmodel;
 
+  bool has_path = false;
+  int from_id, to_id;
+
 protected:
   void paintEvent(QPaintEvent *event) override;
 

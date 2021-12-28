@@ -12,6 +12,8 @@ public:
   bool setFloor(int newfloor);
   bool viewMoveBy(QPoint shift);
 
+  inline int getFloor() { return drawer->getFloor(); }
+
 public:
   Drawer *drawer;
 };

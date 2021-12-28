@@ -1,5 +1,6 @@
 #include "mainWindow.h"
 #include "core/graph.h"
+#include "network/httpClient.h"
 
 MainWindow::MainWindow(Core::Model::Map *map_model) : QWidget() {
   controller = new MapController();
@@ -198,17 +199,24 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::onLvFloorChanged(const QModelIndex, const QModelIndex) {
-  controller->setFloor(lvlFloor->currentIndex().row());
+  controller->setFloor(lvlFloor->currentIndex().row() + 1);
+  if (has_path) {  // TODO: костыль
+      leFrom->setText(QString::number(from_id));
+      leTo->setText(QString::number(to_id));
+      onBuildPressed();
+  } else update();
 }
 
 void MainWindow::onBuildPressed() {
   qDebug() << "Build button pressed!  ";
   qDebug() << leFrom->text() << "    " << leTo->text();
   bool okTo = false, okFrom = false;
-  int from_id = leFrom->text().toInt(&okFrom);
-  int to_id = leTo->text().toInt(&okTo);
+  has_path = false;
+  from_id = leFrom->text().toInt(&okFrom);
+  to_id = leTo->text().toInt(&okTo);
 
   if (okTo and okFrom) {
+      has_path = true;
       auto path = mapmodel->graph.calculate_route(from_id, to_id);
       if (path.second == 0) {
           qDebug() << "Can't find path!  ";
@@ -217,7 +225,9 @@ void MainWindow::onBuildPressed() {
       // transform path of rooms into vector of points
       std::vector<Point> points;
       for (auto &neighbour : path.first) {
-          points.push_back(mapmodel->getRooms().at(neighbour->id).center());
+          auto room_ = mapmodel->getRooms().at(neighbour->id);
+          if (room_.floor == controller->getFloor())
+            points.push_back(room_.center());
       }
 
     mapview->setPath(points);
@@ -229,6 +239,16 @@ void MainWindow::onBuildPressed() {
 }
 
 void MainWindow::onFindTmTblButtomPressed() {
+//  Params body = {
+//          { "parent_uuid", "" },
+//          { "type", "group" },
+//          { "query", room->text().toStdString() },
+//  };
+//  HttpClient client;
+//  Response result = client.makePostRequest(HostAddress("", "152.70.54.11", 8000),
+//                                           "/bitop/search/unit", nullptr, nullptr, &body);
+//  ResponseStruct resultStruct = client.parseResponse(result);
+//
   QString data = "There will be a \ntimetable!";
   qDebug() << room->text();
   timeTable->setText(data);

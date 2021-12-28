@@ -11,6 +11,9 @@ namespace Core {
 
         class IDrawer {
             public:
+                int floor = 0;
+                inline void setFloor(int new_floor) { floor = new_floor; }
+                inline int getFloor() const { return floor; }
                 virtual void drawLine(Geometry::Point start, Geometry::Point end) = 0;
                 virtual void drawPolygon(const std::vector<Geometry::Point> &points) = 0;
                 virtual void drawText(const std::string &, Geometry::Point) = 0;

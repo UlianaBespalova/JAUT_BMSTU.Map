@@ -13,7 +13,6 @@ using Core::View::Color;
 class Drawer : public Core::View::IDrawer {
 private:
   Point view_pos;
-  int floor;
   qreal scale = 1;
   QPoint *matrix;
 
@@ -33,7 +32,6 @@ public:
   void setBrushColor(const Color &color) override;
   void drawImage(Point center, const std::string &path);
 
-  void setFloor(int new_floor);
   void setScale(qreal new_scale);
   void setViewPos(Point new_pos);
 

@@ -48,6 +48,8 @@ const RoomColors &getColor(const Model::Map::Room &room) {
 }
 
 void View::Map::drawRoom(const Model::Map::Room &room) {
+    if (room.floor != drawer->floor) return;
+
     // ### Polygon
     RoomColors colors = getColor(room);
     drawer->setLineColor(colors.lines);

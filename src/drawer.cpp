@@ -12,8 +12,6 @@ QPoint Drawer::rePoint(const Point &point) const {
   return QPoint(point.x * scale + view_pos.x, point.y * scale + view_pos.y);
 }
 
-void Drawer::setFloor(int new_floor) { this->floor = new_floor; }
-
 void Drawer::setScale(qreal new_scale) { this->scale = new_scale; }
 
 void Drawer::drawLine(Point start, Point end) {
