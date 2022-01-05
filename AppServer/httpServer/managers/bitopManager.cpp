@@ -82,12 +82,10 @@ std::string BitopManager::getScheduleForGroup(const GroupParams &groupParams) {
 std::string BitopManager::getItemsByUuid(const std::string &uid,
                                          const std::string &type) {
     Params body = {{"parent_uuid", uid}, {"query", ""}, {"type", type}};
-    client = new HttpsClient();
     Response result =
             client->makePostRequest(HostAddress(bitopDomain, bitopIP, bitopPort),
                                     scheduleListTarget, nullptr, &headers, &body);
     ResponseStruct resultStruct = client->parseResponse(result);
-    delete client;
     if (resultStruct.status == 200)
         return resultStruct.body;
     else
@@ -95,14 +93,12 @@ std::string BitopManager::getItemsByUuid(const std::string &uid,
 }
 
 std::string BitopManager::getScheduleByGroupUuid(const std::string &uid) {
-    client = new HttpsClient();
     Response result =
             client->makeGetRequest(HostAddress(bitopDomain, bitopIP, bitopPort),
                                    scheduleTarget + uid, nullptr, &headers);
     ResponseStruct resultStruct = client->parseResponse(result);
     std::cout << resultStruct.body << std::endl;
 
-    delete client;
     if (resultStruct.status == 200)
         return resultStruct.body;
     else

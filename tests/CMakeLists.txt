@@ -21,7 +21,7 @@ find_package(GTest REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${GTEST_INCLUDE_DIRS})
 
-add_executable(tests tests.cpp)
+add_executable(tests testsClient.cpp testsServer.cpp)
 target_link_libraries(tests ${GTEST_LIBRARIES} m pthread)
 target_link_libraries(tests gmock)
 target_link_libraries(tests ${Boost_LIBRARIES})

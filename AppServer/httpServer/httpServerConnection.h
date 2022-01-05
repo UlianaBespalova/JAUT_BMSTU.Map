@@ -13,8 +13,8 @@
 #include "router.h"
 #include "serverTypes.h"
 
-using namespace boost::asio;
-using namespace boost::beast;
+using asio = boost::asio;
+using beast = boost::beast;
 
 class HttpServerConnection : public boost::enable_shared_from_this<HttpServerConnection>{
 public:

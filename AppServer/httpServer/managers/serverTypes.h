@@ -6,7 +6,7 @@
 
 #include <boost/beast.hpp>
 
-using namespace boost::beast;
+using beast = boost::beast;
 
 typedef http::response<http::string_body> ResponseString;
 typedef http::request<http::string_body> Request;

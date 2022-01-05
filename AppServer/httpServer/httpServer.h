@@ -5,10 +5,11 @@
 #define HTTPSERVER_H
 
 #include <boost/asio.hpp>
+#include <memory>
 
 #include "router.h"
 
-using namespace boost::asio;
+using asio = boost::asio;
 
 class HttpServer {
 public:
@@ -24,9 +25,8 @@ protected:
     ip::tcp::socket socket;
     ip::tcp::acceptor acceptor;
 
-    BitopManager *bitopManager = new BitopManager();
-    MapManager *mapManager = new MapManager();
-
+    std::shared_ptr<BitopManager> bitopManager;
+    std::shared_ptr<MapManager> mapManager;
     Router router = Router(bitopManager, mapManager);
 };
 

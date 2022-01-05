@@ -4,6 +4,8 @@
 #ifndef ROUTER_H
 #define ROUTER_H
 
+#include <memory>
+
 #include "bitopManager.h"
 #include "mapManager.h"
 #include "serverTypes.h"
@@ -16,8 +18,8 @@ public:
     ResponseString execute(Request &request);
 
 private:
-    BitopManager *bitopManager = new BitopManager();
-    MapManager *mapManager = new MapManager();
+    std::shared_ptr<BitopManager> bitopManager;
+    std::shared_ptr<MapManager> mapManager;
 
     const std::string schedulePath = "/schedule";
     const std::string scheduleTestPath = "/schedule_test";

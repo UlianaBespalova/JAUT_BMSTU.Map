@@ -11,10 +11,9 @@
 
 #include "httpClient.h"
 
-namespace exception = boost::exception_detail;
-namespace ptree = boost::property_tree;
-
 using boostSystemErr = boost::system::system_error;
+using exception = boost::exception_detail;
+using ptree = boost::property_tree;
 
 Response BaseClient::getConnection(unsigned short port,
                                    const std::string& target, Params* params,

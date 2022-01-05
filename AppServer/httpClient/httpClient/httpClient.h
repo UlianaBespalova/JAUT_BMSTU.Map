@@ -11,8 +11,8 @@
 
 #include "clientTypes.h"
 
-namespace asio = boost::asio;
-namespace beast = boost::beast;
+using asio = boost::asio;
+using beast = boost::beast;
 
 class BaseClient {
 public:
@@ -25,10 +25,9 @@ public:
                                      Params* headers, Params* body) = 0;
 
     ResponseStruct parseResponse(Response response);
-
-protected:
     static std::string getUrl(const std::string& target, Params* params);
 
+protected:
     virtual bool connect(unsigned short port) = 0;
     virtual Response getResponse() = 0;
     virtual void requestGet(const std::string& target, Params* headers) = 0;

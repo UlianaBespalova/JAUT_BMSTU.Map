@@ -9,7 +9,7 @@
 #ifndef HTTPSERVER_SERIALIZERS_H
 #define HTTPSERVER_SERIALIZERS_H
 
-namespace ptree = boost::property_tree;
+using ptree = boost::property_tree;
 
 struct FloorReq {
     std::string floor;

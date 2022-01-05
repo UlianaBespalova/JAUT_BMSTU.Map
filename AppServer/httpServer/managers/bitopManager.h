@@ -4,6 +4,7 @@
 #ifndef BITOPMANAGER_H
 #define BITOPMANAGER_H
 
+#include <memory>
 #include <utility>
 
 #include "cacheManager.h"
@@ -42,8 +43,8 @@ private:
             "bb-at-1rrz8bvnkc5xb7lsx3ga4wpscn73qkfzc5h6ftr32s134";
     Params headers;
 
-    HttpsClient *client = new HttpsClient();
-    CacheManager *cacheManager = new CacheManager();
+    std::shared_ptr<HttpsClient> client;
+    std::shared_ptr<CacheManager> cacheManager;
 };
 
 #endif  // BITOPMANAGER_H
