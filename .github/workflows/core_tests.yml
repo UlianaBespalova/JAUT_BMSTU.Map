@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  static:
+    name: Static formatters and analyzers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+
+      - name: Cmake
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug \
+                ..
+
+      - name: clang-format
+        run: |
+          echo "::group::apt-get install clang-format log"
+          sudo apt-get install -y clang-format
+          echo "::endgroup::"
+          echo "::group::clang-format log"
+          clang-format --dry-run ./src/*.*
+          echo "::endgroup::"
+
+      - name: clang-tidy
+        run: |
+          echo "::group::apt-get install clang-tidy log"
+          sudo apt-get install -y clang-tidy
+          echo "::endgroup::"
+          echo "::group::clang-tidy log"
+          clang-tidy ./core/src/*.* --
+          echo "::endgroup::"
+
+      - name: cpplint
+        run: |
+          echo "::group::pip install cpplint log"
+          pip install cpplint
+          echo "::endgroup::"
+          echo "::group::cpplint log"
+          cpplint ./core/src/*.*
+          echo "::endgroup::"
+        continue-on-error: true
+
+      - name: scan-build
+        run: |
+          echo "::group::apt-get install clang-tools log"
+          sudo apt-get install -y clang-tools
+          cd build
+          echo "::endgroup::"
+          echo "::group::scan-build log"
+          scan-build -o ../output make
+          echo "::endgroup::"
+
+      - name: fbinfer
+        run: |
+          echo "::group::install fbinfer log"
+          VERSION=1.1.0; \
+          curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
+          | sudo tar -C /opt -xJ && \
+          sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+          cd build
+          echo "::endgroup::"
+          echo "::group::infer log"
+          infer run -- make
+          echo "::endgroup::"
+
+  tests:
+    name: GTests & Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Tests
+        run: |
+          echo "::group::Cmake log"
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_C_FLAGS="--coverage" \
+                ..
+          echo "::endgroup::"
+          echo "::group::Make log" && make -j && echo "::endgroup::"
+          echo "::group::Tests log" && ./core_tests && echo "::endgroup::"
+
+
+      - name: Valgrind
+        run: |
+          sudo apt-get install valgrind
+          valgrind --tool=memcheck --leak-check=yes ./build/core_tests
+
+      - name: Coverage
+        run: |
+          sudo apt-get install -y gcovr
+          mkdir output
+          gcovr -r . -f src/ --html --html-details -o ./output/coverage.html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Coverage report
+          path: ./output/
+
+  sanitizers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sanitizer: [ leak, address, undefined, thread ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ${{ matrix.sanitizer }} sanitizer
+        run: |
+          [[ "${{ matrix.sanitizer }}" == "address" ]] && export ASAN_OPTIONS=alloc_dealloc_mismatch=0
+          echo "::group::Cmake log"
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_FLAGS="-fsanitize=${{ matrix.sanitizer }}" -DCMAKE_C_FLAGS="-fsanitize=${{ matrix.sanitizer }}" \
+                ..
+          echo "::endgroup::"
+          echo "::group::Make log" && make -j && echo "::endgroup::"
+          echo "::group::Address Sanitizer log" && ./core_tests && echo "::endgroup::"
+
